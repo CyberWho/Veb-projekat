@@ -29,7 +29,7 @@ public class Korisnik implements Serializable {
     private String prezime;
 
     @Column
-    private String kontaktTel;
+    private String kontakt_tel;
 
     @Column
     private String email;
@@ -43,13 +43,13 @@ public class Korisnik implements Serializable {
     @Column
     private Boolean aktivan;
 
-    public Korisnik(Long id, String korisnickoIme, String lozinka, String ime, String prezime, String kontaktTel, String email, Date datum, Uloga uloga, Boolean aktivan) {
+    public Korisnik(Long id, String korisnickoIme, String lozinka, String ime, String prezime, String kontakt_tel, String email, Date datum, Uloga uloga, Boolean aktivan) {
         this.id = id;
         this.korisnickoIme = korisnickoIme;
         this.lozinka = lozinka;
         this.ime = ime;
         this.prezime = prezime;
-        this.kontaktTel = kontaktTel;
+        this.kontakt_tel = kontakt_tel;
         this.email = email;
         this.datum = datum;
         this.uloga = uloga;
@@ -97,11 +97,11 @@ public class Korisnik implements Serializable {
     }
 
     public String getKontaktTel() {
-        return kontaktTel;
+        return kontakt_tel;
     }
 
-    public void setKontaktTel(String kontaktTel) {
-        this.kontaktTel = kontaktTel;
+    public void setKontaktTel(String s) {
+        this.kontakt_tel = s;
     }
 
     public String getEmail() {

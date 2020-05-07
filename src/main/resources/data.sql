@@ -1,3 +1,2 @@
-INSERT INTO Korisnik(type, id, korisnickoIme, lozinka, ime, prezime, kontaktTel, email, datum, uloga, aktivan) VALUES
-('Gledalac', 1, 'KorIme', 'pass', 'ime', 'prezime', '244444', 'mejl@gmail.com', '2020-05-07', 0, false);
+INSERT INTO Korisnik(type, id, lozinka, ime, prezime, kontakt_tel, email, datum, uloga, aktivan, korisnicko_ime) VALUES ('Gledalac', 1, 'pass', 'ime', 'prezime', '244444', 'mejl@gmail.com', '2020-05-07', 0, false, 'korime');
 

@@ -12,7 +12,7 @@ public class Gledalac extends Korisnik {
             joinColumns = @JoinColumn(name = "GledalacID", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "FilmID", referencedColumnName = "id")
     )
-    private Set<Film> odgledaniFilmovi = new HashSet<Film>();
+    private Set<Film> odgledani_filmovi = new HashSet<Film>();
 
     @ManyToMany
     @JoinTable(
@@ -20,39 +20,39 @@ public class Gledalac extends Korisnik {
         joinColumns =  @JoinColumn(name = "GledalacID", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "FilmID", referencedColumnName = "id")
     )
-    private Set<Film> rezervisaniFilmovi = new HashSet<Film>();
+    private Set<Film> rezervisani_filmovi = new HashSet<Film>();
 
     @ElementCollection
-    private Map<Film, Integer> ocenjeniFilmovi = new HashMap<Film, Integer>();
+    private Map<Film, Integer> ocenjeni_filmovi = new HashMap<Film, Integer>();
 
-    public Gledalac(Long id, String korisnickoIme, String lozinka, String ime, String prezime, String kontaktTel, String email, Date datum, Uloga uloga, Boolean aktivan, Set<Film> odgledaniFilmovi, Set<Film> rezervisaniFilmovi, Map<Film, Integer> ocenjeniFilmovi) {
+    public Gledalac(Long id, String korisnickoIme, String lozinka, String ime, String prezime, String kontaktTel, String email, Date datum, Uloga uloga, Boolean aktivan, Set<Film> odgledani_filmovi, Set<Film> rezervisani_filmovi, Map<Film, Integer> ocenjeni_filmovi) {
         super(id, korisnickoIme, lozinka, ime, prezime, kontaktTel, email, datum, uloga, aktivan);
-        this.odgledaniFilmovi = odgledaniFilmovi;
-        this.rezervisaniFilmovi = rezervisaniFilmovi;
-        this.ocenjeniFilmovi = ocenjeniFilmovi;
+        this.odgledani_filmovi = odgledani_filmovi;
+        this.rezervisani_filmovi = rezervisani_filmovi;
+        this.ocenjeni_filmovi = ocenjeni_filmovi;
     }
 
-    public Set<Film> getOdgledaniFilmovi() {
-        return odgledaniFilmovi;
+    public Set<Film> getOdgledani_filmovi() {
+        return odgledani_filmovi;
     }
 
-    public void setOdgledaniFilmovi(Set<Film> odgledaniFilmovi) {
-        this.odgledaniFilmovi = odgledaniFilmovi;
+    public void setOdgledani_filmovi(Set<Film> odgledaniFilmovi) {
+        this.odgledani_filmovi = odgledaniFilmovi;
     }
 
-    public Set<Film> getRezervisaniFilmovi() {
-        return rezervisaniFilmovi;
+    public Set<Film> getRezervisani_filmovi() {
+        return rezervisani_filmovi;
     }
 
-    public void setRezervisaniFilmovi(Set<Film> rezervisaniFilmovi) {
-        this.rezervisaniFilmovi = rezervisaniFilmovi;
+    public void setRezervisani_filmovi(Set<Film> rezervisaniFilmovi) {
+        this.rezervisani_filmovi = rezervisaniFilmovi;
     }
 
-    public Map<Film, Integer> getOcenjeniFilmovi() {
-        return ocenjeniFilmovi;
+    public Map<Film, Integer> getOcenjeni_filmovi() {
+        return ocenjeni_filmovi;
     }
 
-    public void setOcenjeniFilmovi(Map<Film, Integer> ocenjeniFilmovi) {
-        this.ocenjeniFilmovi = ocenjeniFilmovi;
+    public void setOcenjeni_filmovi(Map<Film, Integer> ocenjeniFilmovi) {
+        this.ocenjeni_filmovi = ocenjeniFilmovi;
     }
 }
