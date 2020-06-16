@@ -1,0 +1,79 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+h1{
+    font-family: calibri;
+    
+    text-align: center;
+}
+
+h2{
+    font-family: calibri;
+    margin-left: .7em;
+    font-weight: normal;
+}
+
+.container{
+    width: 90%;
+    margin: 0 auto;
+}
+
+nav {
+    width: 100%;
+    overflow: hidden;
+    height: 70px;
+    line-height: 70px;
+    background: #fff;
+    border-bottom: 2px solid #ff0000;
+}
+
+.logo_div > img {
+    width: 15%;
+    float: left
+}
+
+.menu {
+    float: right;
+}
+
+.menu li{
+    float: left;
+    width: 120px;
+    height: 70px;
+    line-height: 70px;
+    text-align: center;
+    list-style: none;
+}
+
+.menu li a{
+    color: #000;
+    text-decoration: none;
+    font-family: calibri;
+    text-transform: uppercase;
+    display: block;
+}
+
+.menu li:hover{
+    background: #dc3545;
+}
+
+.menu li a:hover{
+    color: #fff;
+}
+
+.profilpodaci {
+    margin-left: .7em;
+    font-family: calibri;
+    line-height: 30px;
+}
+
+.profilpodaci > a{
+    font-size: 1.2em;
+}
+
+.forma{
+    margin-left: 1.5em;
+    font-size: 1.2em;
+}
