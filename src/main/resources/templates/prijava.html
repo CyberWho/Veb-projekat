@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en">
+<html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <title>Prijava</title>
     <link rel="stylesheet" href="../static/css/temp_style.css">
@@ -13,11 +13,11 @@
             </div>
             <div class="navbar">
                 <ul class="menu">
-                    <li><a href="temp_index.html">Početna</a></li>
-                    <li><a href="profil.html">Moj profil</a></li>
-                    <li><a href="prijava.html">Prijava</a></li>
-                    <li><a href="registracija.html">Registracija</a></li>
-                    <li><a href="dodaj_bioskop.html">Dodaj bioskop</a></li>
+                    <li><a th:href="${'/'}">Početna</a></li>
+                    <li><a th:href="${'/profil'}">Moj profil</a></li>
+                    <li><a th:href="${'/prijava'}">Prijava</a></li>
+                    <li><a th:href="${'/registracija'}">Registracija</a></li>
+                    <li><a th:href="${'/dodaj_bioskop'}">Dodaj bioskop</a></li>
                 </ul>
             </div>
         </div>

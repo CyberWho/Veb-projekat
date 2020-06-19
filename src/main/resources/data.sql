@@ -1,2 +1,4 @@
-INSERT INTO Korisnik(type, id, lozinka, ime, prezime, kontakt_tel, email, datum, uloga, aktivan, korisnicko_ime) VALUES ('Gledalac', 1, 'pass', 'ime', 'prezime', '244444', 'mejl@gmail.com', '2020-05-07', 0, false, 'korime');
+INSERT INTO Korisnik(type, id, lozinka, ime, prezime, kontakt_tel, email, datum, uloga, aktivan, korisnicko_ime) VALUES ('Gledalac', 1, 'pass', 'Marko', 'Markovic', '244444', 'markovic@gmail.com', '2020-05-07', 0, false, 'marko');
+INSERT INTO Korisnik(type, id, lozinka, ime, prezime, kontakt_tel, email, datum, uloga, aktivan, korisnicko_ime) VALUES ('Gledalac', 2, 'pass', 'Ivana', 'Ivanovic', '232714', 'ivanovic@gmail.com', '2020-06-17', 0, false, 'ivana');
+INSERT INTO Korisnik(type, id, lozinka, ime, prezime, kontakt_tel, email, datum, uloga, aktivan, korisnicko_ime) VALUES ('Menadzer', 3, 'pass', 'Jovan', 'Jovanovic', '555333', 'veliki@gmail.com', '2020-06-17', 1, false, 'veliki_menadzer');
 INSERT INTO Bioskop(id, naziv, adresa, br_telefona, email) VALUES (1, 'Bioskop1', 'Mihajla Pupina 20', '455000', 'bioskop1@bioskopi.rs');
