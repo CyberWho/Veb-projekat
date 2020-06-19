@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <title>Prikaz svih korisnika</title>
-    <link rel="stylesheet" href="../static/css/temp_style.css">
+    <link rel="stylesheet" th:href="@{css/temp_style.css}">
     <meta charset="utf-8"/>
 </head>
 <body>
@@ -30,13 +30,14 @@
     <h2>Unesite Vaše podatke:<br><br></h2>
     <form method="post" action="#" class="forma">
         <label for="ime">Ime: </label>
-        <input type="text" name="ime" id="ime" /><br/>
+        <input type="text" placeholder="Unesite ime" name="ime" id="ime" required/>
+        <br/>
         <label for="prezime">Prezime: </label>
-        <input type="text" name="prezime" id="ime" /><br/>
+        <input type="text" placeholder="Unesite prezime" name="prezime" id="ime" required/><br/>
         <label for="pass">Lozinka: </label>
-        <input type="password" name="pass" id="pass" /><br/>
+        <input type="password" placeholder="Unesite lozinku" name="pass" id="pass" required/><br/>
         <label for="pass">Korisničko ime: </label>
-        <input type="text" name="username" id="username" /><br/>
+        <input type="text" placeholder="Unesite korisničko ime" name="username" id="username" /><br/>
         <label for="izbor">Izaberite ulogu: </label>
         <select name="izbor" id="izbor" required="required" >
             <option value=""> --Vaš izbor-- </option>
@@ -45,7 +46,7 @@
             <option value="3">Administrator</option>
         </select>
         <br/>
-        <input type="submit" value="Pošalji" href="uspesna_registracija.html" />
+        <input type="submit" value="Pošalji" th:href="${'/registruj'}"/>
     </form>
 </section>
 

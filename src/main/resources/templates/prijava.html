@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <title>Prijava</title>
-    <link rel="stylesheet" href="../static/css/temp_style.css">
+    <link rel="stylesheet" th:href="@{css/temp_style.css}">
     <meta charset="utf-8"/>
 </head>
 <body>
@@ -26,7 +26,25 @@
     
 <h1><br>Prijava<br><br></h1>
 
-<h2></h2>
+<form action="action_page.php" method="post">
+  <div class="container">
+    <label for="uname">Korisničko ime  </label>
+    <input type="text" placeholder="Unesite korisničko ime" name="uname" required><br>
+
+    <label for="psw">Lozinka  </label>
+    <input type="password" placeholder="Unesite lozinku" name="psw" required>
+
+    <button type="submit">Uloguj me</button>
+    <label>
+      <input type="checkbox" checked="checked" name="remember"> Zapamti me
+    </label>
+  </div>
+  <br>
+  <div class="container">
+    <button type="button" class="cancelbtn">Poništi</button>
+    <span class="psw">Zaboravili ste <a href="#">lozinku?</a></span>
+  </div>
+</form>
 
 
 </body>
