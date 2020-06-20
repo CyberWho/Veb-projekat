@@ -26,7 +26,29 @@
     
 <h1><br>Dodaj bioskop<br><br></h1>
 
-<h2></h2>
+<section>
+    <h2>Unesite podatke bioskopa:<br><br></h2>
+    <form method="post" action="#" class="forma">
+        <label for="ime">Adresa: </label>
+        <input type="text" placeholder="Unesite adresu" name="adresa" id="adresa" required/>
+        <br/>
+        <label for="br_telefona">Broj telefona: </label>
+        <input type="text" placeholder="Unesite broj telefona" name="br_telefona" id="br_telefona" required/><br/>
+        <label for="pass">Lozinka: </label>
+        <input type="password" placeholder="Unesite lozinku" name="pass" id="pass" required/><br/>
+        <label for="pass">Korisničko ime: </label>
+        <input type="text" placeholder="Unesite korisničko ime" name="username" id="username" /><br/>
+        <label for="izbor">Izaberite ulogu: </label>
+        <select name="izbor" id="izbor" required="required" >
+            <option value=""> --Vaš izbor-- </option>
+            <option value="1">Gledalac</option>
+            <option value="2">Menadžer</option>
+            <option value="3">Administrator</option>
+        </select>
+        <br/>
+        <input type="submit" value="Pošalji" th:href="${'/registruj'}"/>
+    </form>
+</section>
 
 
 </body>
