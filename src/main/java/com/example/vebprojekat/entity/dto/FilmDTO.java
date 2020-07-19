@@ -1,52 +1,25 @@
-package com.example.vebprojekat.entity;
+package com.example.vebprojekat.entity.dto;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Column;
 import java.sql.Time;
-import java.util.HashSet;
-import java.util.Set;
 
-@Entity
-public class Film implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class FilmDTO {
     private Long id;
-
-    @Column
     private String naziv;
-
-    @Column
     private String opis;
-
-    @Column
     private String zanr;
-
-    @Column
     private Integer trajanje;
-
-    @Column
     private Double prosecna_ocena;
 
-    /*
-    @ManyToMany
-    @JoinTable(
-            name = "Filmovi i terminske liste",
-            joinColumns = @JoinColumn(name = "film_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "projekcija_id", referencedColumnName = "id")
-    )
-    private Set<TerminskaLista> terminske_liste = new HashSet<TerminskaLista>();
-     */
+    public FilmDTO() {}
 
-    public Film(){}
-
-    public Film(Long id, String naziv, String opis, String zanr, Integer trajanje, Double prosecna_ocena, Set<TerminskaLista> terminske_liste) {
+    public FilmDTO(Long id, String naziv, String opis, String zanr, Integer trajanje, Double prosecna_ocena) {
         this.id = id;
         this.naziv = naziv;
         this.opis = opis;
         this.zanr = zanr;
         this.trajanje = trajanje;
         this.prosecna_ocena = prosecna_ocena;
-        //this.terminske_liste = terminske_liste;
     }
 
     public Long getId() {
@@ -96,14 +69,4 @@ public class Film implements Serializable {
     public void setProsecna_ocena(Double prosecna_ocena) {
         this.prosecna_ocena = prosecna_ocena;
     }
-
-    /*
-    public Set<TerminskaLista> getTerminske_liste() {
-        return terminske_liste;
-    }
-
-    public void setTerminske_liste(Set<TerminskaLista> terminske_liste) {
-        this.terminske_liste = terminske_liste;
-    }
-    */
 }

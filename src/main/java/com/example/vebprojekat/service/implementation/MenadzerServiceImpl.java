@@ -1,6 +1,8 @@
 package com.example.vebprojekat.service.implementation;
 
+import com.example.vebprojekat.entity.Korisnik;
 import com.example.vebprojekat.entity.Menadzer;
+import com.example.vebprojekat.entity.UlogaEnum;
 import com.example.vebprojekat.repository.MenadzerRepository;
 import com.example.vebprojekat.service.MenadzerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +17,23 @@ public class MenadzerServiceImpl implements MenadzerService {
     private MenadzerRepository menadzerRepository;
 
     @Override
-    public Menadzer create(Menadzer menadzer) throws Exception{
-        if(menadzer.getId() != null) throw new Exception("ID mora biti null!");
+    public Menadzer create(Korisnik korisnik) throws Exception{
+        if(korisnik == null) throw new Exception("Niste uneli korisnika");
 
-        Menadzer novi = this.menadzerRepository.save(menadzer);
-        return novi;
+        Menadzer novi = new Menadzer();
+        novi.setKorisnicko_ime(korisnik.getKorisnicko_ime());
+        novi.setLozinka(korisnik.getLozinka());
+        novi.setIme(korisnik.getIme());
+        novi.setPrezime(korisnik.getPrezime());
+        novi.setKontakt_tel(korisnik.getKontakt_tel());
+        novi.setEmail(korisnik.getEmail());
+        novi.setDatum(korisnik.getDatum());
+        novi.setUloga(UlogaEnum.Uloga.MENADZER);
+        novi.setAktivan(korisnik.getAktivan());
+        novi.setApproved(korisnik.getApproved());
+        novi.setAdmin_approve(korisnik.getAdmin_approve());
+
+        return menadzerRepository.save(novi);
     }
 
     @Override
@@ -38,11 +52,12 @@ public class MenadzerServiceImpl implements MenadzerService {
         zaAzurirati.setAktivan(menadzer.getAktivan());
         zaAzurirati.setDatum(menadzer.getDatum());
         zaAzurirati.setEmail(menadzer.getEmail());
-        zaAzurirati.setKorisnickoIme(menadzer.getKorisnickoIme());
+        zaAzurirati.setKorisnicko_ime(menadzer.getKorisnicko_ime());
         zaAzurirati.setLozinka(menadzer.getLozinka());
         zaAzurirati.setUloga(menadzer.getUloga());
-        zaAzurirati.setKontaktTel(menadzer.getKontaktTel());
+        zaAzurirati.setKontakt_tel(menadzer.getKontakt_tel());
         zaAzurirati.setBioskop(menadzer.getBioskop());
+        zaAzurirati.setApproved(menadzer.getApproved());
 
         Menadzer novi = this.menadzerRepository.save(zaAzurirati);
         return novi;

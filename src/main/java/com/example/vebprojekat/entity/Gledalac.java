@@ -25,7 +25,9 @@ public class Gledalac extends Korisnik {
     @ElementCollection
     private Map<Film, Integer> ocenjeni_filmovi = new HashMap<Film, Integer>();
 
-    public Gledalac(Long id, String korisnickoIme, String lozinka, String ime, String prezime, String kontaktTel, String email, Date datum, Uloga uloga, Boolean aktivan, Set<Film> odgledani_filmovi, Set<Film> rezervisani_filmovi, Map<Film, Integer> ocenjeni_filmovi) {
+    public Gledalac(){}
+
+    public Gledalac(Long id, String korisnickoIme, String lozinka, String ime, String prezime, String kontaktTel, String email, Date datum, UlogaEnum.Uloga uloga, Boolean aktivan, Set<Film> odgledani_filmovi, Set<Film> rezervisani_filmovi, Map<Film, Integer> ocenjeni_filmovi) {
         super(id, korisnickoIme, lozinka, ime, prezime, kontaktTel, email, datum, uloga, aktivan);
         this.odgledani_filmovi = odgledani_filmovi;
         this.rezervisani_filmovi = rezervisani_filmovi;

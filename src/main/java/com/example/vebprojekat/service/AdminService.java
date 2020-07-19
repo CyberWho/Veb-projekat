@@ -1,11 +1,12 @@
 package com.example.vebprojekat.service;
 
 import com.example.vebprojekat.entity.Admin;
+import com.example.vebprojekat.entity.Korisnik;
 
 import java.util.List;
 
 public interface AdminService {
-    Admin create(Admin admin) throws Exception;
+    Admin create(Korisnik korisnik) throws Exception;
 
     Admin findOne(Long id);
 
@@ -14,4 +15,11 @@ public interface AdminService {
     void delete(Long id);
 
     List<Admin> findAll();
+
+    Admin findByUsername(String username);
+
+    void addToApprovalList(Korisnik korisnik) throws Exception;
+
+    Boolean approveRegistration(Korisnik korisnik) throws Exception;
+
 }

@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <title>Novosadski bioskopi</title>
+    <link rel="stylesheet" th:href="@{/style.css}"/>
+    <meta charset="utf-8"/>
+</head>
+<body>
+<nav>
+    <div class="container">
+        <div class="logo_div">
+            <img src="/images/logo_stari.png" alt="">
+        </div>
+        <div class="navbar">
+            <ul class="menu">
+                <li><a th:href="${'/'}">Početna</a></li>
+                <li><a th:href="${'/filmovi'}">Filmovi</a></li>
+                <li><a th:href="${'/profil'}">Profil</a></li>
+                <li><a th:href="${'/pregled_rezervacija'}">Pregled rezervacija</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<h1><br>Novosadski bioskopi<br><br></h1>
+<p>Da li sam ovde?</p>
+<div id="pocetni_sadrzaj">
+
+</div>
+
+</body>
+</html>

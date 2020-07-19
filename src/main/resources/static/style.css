@@ -1,0 +1,110 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: calibri;
+}
+
+h1{
+    text-align: center;
+}
+
+#film{
+    color: brown;
+}
+
+h2{
+    margin-left: .7em;
+    font-weight: normal;
+}
+
+.container{
+    width: 90%;
+    margin: 0 auto;
+}
+
+nav {
+    width: 100%;
+    overflow: hidden;
+    height: 70px;
+    line-height: 70px;
+    background: #fff;
+    border-bottom: 2px solid #ff0000;
+}
+
+.logo_div > img {
+    width: 15%;
+    float: left
+}
+
+.menu {
+    float: right;
+}
+
+.menu li{
+    float: left;
+    width: 120px;
+    height: 70px;
+    line-height: 70px;
+    text-align: center;
+    list-style: none;
+}
+
+.menu li a{
+    color: #000;
+    text-decoration: none;
+    font-family: calibri;
+    text-transform: uppercase;
+    display: block;
+}
+
+.menu li:hover{
+    background: #dc3545;
+}
+
+.menu li a:hover{
+    color: #fff;
+}
+
+.profilpodaci {
+    margin-left: .7em;
+    font-family: calibri;
+    line-height: 30px;
+}
+
+.profilpodaci > a{
+    font-size: 1.2em;
+}
+
+.forma {
+  width: 40%;
+  clear: both;
+}
+
+.forma input, select {
+    width: 100%;
+    clear: both;
+    /*width: 20%;*/
+    padding: 13px;
+    margin: 3px 0 10px 0;
+    border: none;
+    background: #B8B8B8;
+    display: inline-block;
+}
+
+.forma.btn {
+    background: gray;
+    width: 20%;
+}
+
+table {
+    width: 100%;
+    color: brown;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+th, td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #dc3545;
+}

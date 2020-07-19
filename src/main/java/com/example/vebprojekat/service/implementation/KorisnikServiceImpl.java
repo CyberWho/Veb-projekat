@@ -12,22 +12,35 @@ import java.util.List;
 public class KorisnikServiceImpl implements KorisnikService {
 
     @Autowired
-    private KorisnikRepository korisnikRepository;
+    private  KorisnikRepository korisnikRepository;
 
     @Override
-    public Korisnik create(Korisnik korisnik) throws Exception{
-        if(korisnik.getId() != null) throw new Exception("ID mora biti null!");
+    public Korisnik create(Korisnik korisnik) {
+        if(korisnik.getId() != null) return null;
 
         Korisnik novi = this.korisnikRepository.save(korisnik);
         return novi;
     }
 
+    @Override
     public Korisnik findOne(Long id){
         Korisnik novi = this.korisnikRepository.getOne(id);
         return novi;
 
     }
 
+    @Override
+    public Korisnik findByUsername(String username){
+        List<Korisnik> korisnici = this.korisnikRepository.findAll();
+        for(Korisnik korisnik : korisnici){
+            if(username.equals(korisnik.getKorisnicko_ime())){
+                return korisnik;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public Korisnik update(Korisnik korisnik) throws  Exception{
         Korisnik zaAzurirati = this.korisnikRepository.getOne(korisnik.getId());
         if(zaAzurirati == null) throw new Exception("Traženi korisnik ne postoji!");
@@ -37,20 +50,23 @@ public class KorisnikServiceImpl implements KorisnikService {
         zaAzurirati.setAktivan(korisnik.getAktivan());
         zaAzurirati.setDatum(korisnik.getDatum());
         zaAzurirati.setEmail(korisnik.getEmail());
-        zaAzurirati.setKorisnickoIme(korisnik.getKorisnickoIme());
+        zaAzurirati.setKorisnicko_ime(korisnik.getKorisnicko_ime());
         zaAzurirati.setLozinka(korisnik.getLozinka());
         zaAzurirati.setUloga(korisnik.getUloga());
-        zaAzurirati.setKontaktTel(korisnik.getKontaktTel());
+        zaAzurirati.setKontakt_tel(korisnik.getKontakt_tel());
+        zaAzurirati.setApproved(korisnik.getApproved());
 
         Korisnik novi = this.korisnikRepository.save(zaAzurirati);
 
         return novi;
     }
 
+    @Override
     public void delete(Long id){
         this.korisnikRepository.deleteById(id);
     }
 
+    @Override
     public List<Korisnik> findAll(){
         List<Korisnik> korisnici = this.korisnikRepository.findAll();
         return korisnici;

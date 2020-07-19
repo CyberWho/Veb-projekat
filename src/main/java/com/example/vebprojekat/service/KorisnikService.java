@@ -5,9 +5,11 @@ import com.example.vebprojekat.entity.Korisnik;
 import java.util.List;
 
 public interface KorisnikService {
-    Korisnik create(Korisnik korisnik) throws Exception;
+    Korisnik create(Korisnik korisnik);
 
     Korisnik findOne(Long id);
+
+    Korisnik findByUsername(String username);
 
     Korisnik update(Korisnik korisnik) throws Exception;
 

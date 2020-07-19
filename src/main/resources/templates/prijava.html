@@ -1,51 +1,47 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
-    <title>Prijava</title>
-    <link rel="stylesheet" th:href="@{css/temp_style.css}">
+    <title>Novosadski bioskopi</title>
+    <link rel="stylesheet" th:href="@{/style.css}"/>
     <meta charset="utf-8"/>
 </head>
 <body>
     <nav>
         <div class="container">
             <div class="logo_div">
-                <img src="../static/images/logo_stari.png" alt="">
+                <img src="/images/logo_stari.png" alt="">
             </div>
             <div class="navbar">
                 <ul class="menu">
                     <li><a th:href="${'/'}">Početna</a></li>
-                    <li><a th:href="${'/profil'}">Moj profil</a></li>
+                    <li><a th:href="${'/filmovi'}">Filmovi</a></li>
                     <li><a th:href="${'/prijava'}">Prijava</a></li>
                     <li><a th:href="${'/registracija'}">Registracija</a></li>
-                    <li><a th:href="${'/dodaj_bioskop'}">Dodaj bioskop</a></li>
                 </ul>
             </div>
         </div>
     </nav>
-
     
-<h1><br>Prijava<br><br></h1>
+<h1 id="film"><br>Prijava<br><br></h1>
 
-<form action="action_page.php" method="post">
-  <div class="container">
-    <label for="uname">Korisničko ime  </label>
-    <input type="text" placeholder="Unesite korisničko ime" name="uname" required><br>
+    <center>
+        <form th:action="@{/authentication}" th:object="${trenutniKorisnik}" method="post" class="forma">
+            <label for="korisnicko_ime">Korisničko ime  </label>
+            <input type="text" placeholder="Unesite korisničko ime" id="korisnicko_ime" th:field="*{korisnicko_ime}" required/><br>
 
-    <label for="psw">Lozinka  </label>
-    <input type="password" placeholder="Unesite lozinku" name="psw" required>
+            <label for="lozinka">Lozinka  </label>
+            <input type="password" placeholder="Unesite lozinku" id="lozinka" th:field="*{lozinka}"  required>
 
-    <button type="submit">Uloguj me</button>
-    <label>
-      <input type="checkbox" checked="checked" name="remember"> Zapamti me
-    </label>
-  </div>
-  <br>
-  <div class="container">
-    <button type="button" class="cancelbtn">Poništi</button>
-    <span class="psw">Zaboravili ste <a href="#">lozinku?</a></span>
-  </div>
-</form>
+            <button onclick="location.href =/authentication'">Prijavi se</button>
+            
+            <div th:if="${#bools.isTrue(pass_check)}">
+                <div style="color: red">
+                    <br>Pogrešno korisničko ime ili lozinka.
+                </div>
+            </div>
 
+        </form>
+    </center>
 
 </body>
 </html>

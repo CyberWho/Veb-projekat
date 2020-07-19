@@ -22,12 +22,26 @@
         </div>
     </nav>
     
+    <h1 id="film"><br>Filmovi<br><br></h1>
 
-    <h1 id="film"><br>Novosadski bioskopi<br><br></h1>
-    <p>Da li sam ovde?</p>
-    <div id="pocetni_sadrzaj">
+    <table id="movies">
+        <tr>
+            <th>Naziv</th>
+            <th>Opis</th>
+            <th>Zanr</th>
+            <th>Trajanje</th>
+            <th>Prosečna ocena</th>
+        </tr>
+        <tr th:each="film : ${filmovi}">
+            <td th:text="${film.naziv}"></td>
+            <td th:text="${film.opis}"></td>
+            <td th:text="${film.zanr}"></td>
+            <td th:text="${film.trajanje}"></td>
+            <td th:text="${film.prosecna_ocena}"></td>        
+        </tr>    
+        
+    </table>
     
-    </div>
     
 </body>
 </html>

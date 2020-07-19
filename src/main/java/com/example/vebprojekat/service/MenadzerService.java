@@ -1,11 +1,12 @@
 package com.example.vebprojekat.service;
 
+import com.example.vebprojekat.entity.Korisnik;
 import com.example.vebprojekat.entity.Menadzer;
 
 import java.util.List;
 
 public interface MenadzerService {
-    Menadzer create(Menadzer menadzer) throws Exception;
+    Menadzer create(Korisnik korisnik) throws Exception;
 
     Menadzer findOne(Long id);
 
