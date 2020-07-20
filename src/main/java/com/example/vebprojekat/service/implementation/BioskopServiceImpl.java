@@ -40,6 +40,7 @@ public class BioskopServiceImpl implements BioskopService {
         zaAzurirati.setSale(bioskop.getSale());
         zaAzurirati.setMenadzeri(bioskop.getMenadzeri());
 
+        delete(bioskop.getId());
         Bioskop novi = this.bioskopRepository.save(zaAzurirati);
 
         return novi;

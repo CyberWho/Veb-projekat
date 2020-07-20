@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <title>Novosadski bioskopi</title>
+    <link rel="stylesheet" th:href="@{/style.css}"/>
+    <meta charset="utf-8"/>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="logo_div">
+                <img src="/images/logo_stari.png" alt="">
+            </div>
+            <div class="navbar">
+                <ul class="menu">
+                    <li><a th:href="${'/'}">Početna</a></li>
+                    <li><a th:href="${'/admin_bioskopi'}">Bioskopi</a></li>
+                    <li><a th:href="${'/admin_menadzeri'}">Menadzeri</a></li>
+                    <li><a th:href="${'/odjava'}">Odjava</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+
+    <h1 id="film"><br>Dodaj bioskop<br><br></h1>
+
+<center>
+    <form method="post" th:action="@{/admin_dodaj_bioskop}" th:object="${bioskop}" class="forma">
+        <label for="ime">Ime: </label>
+        <input type="text" placeholder="Unesite ime" id="naziv" th:field="*{naziv}" required/>
+        <br/>
+        <label for="prezime">Prezime: </label>
+        <input type="text" placeholder="Unesite adresu" id="adresa" th:field="*{adresa}" required/><br/><br>
+        <label for="lozinka">Lozinka: </label>
+        <input type="text" placeholder="Unesite broj telefona"  id="br_telefona" th:field="*{br_telefona}" required/><br/><br>
+        <label for="email">Email: </label>
+        <input type="text" placeholder="Unesite email" id="email" th:field="*{email}" />
+        <br/><br>
+        <input class="btn" type="submit" value="Potvrda">
+                
+    </form>
+    
+    
+</center>
+
+
+</body>
+</html>

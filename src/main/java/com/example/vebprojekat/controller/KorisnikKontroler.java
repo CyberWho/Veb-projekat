@@ -118,11 +118,6 @@ public class KorisnikKontroler {
         return "profil.html";
     }
 
-    @GetMapping("/dodaj_bioskop")
-    public String dodaj_bioskop(){
-        return "dodaj_bioskop.html";
-    }
-
 
     // PRIJAVA I ODJAVA -----------------------
 

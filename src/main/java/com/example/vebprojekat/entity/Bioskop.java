@@ -3,11 +3,12 @@ package com.example.vebprojekat.entity;
 import org.hibernate.annotations.JoinColumnOrFormula;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Bioskop {
+public class Bioskop implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,6 +32,10 @@ public class Bioskop {
     private Set<Sala> sale = new HashSet<Sala>();
 
     public Bioskop(){}
+
+    public Bioskop(Long id){
+        this.id = id;
+    }
 
     public Bioskop(Long id, String naziv, String adresa, String br_telefona, String email, Set<Menadzer> menadzeri, Set<Sala> sale) {
         this.id = id;

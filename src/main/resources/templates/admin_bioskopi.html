@@ -24,7 +24,9 @@
 
 
     <h1 id="film"><br>Novosadski bioskopi<br><br></h1>
-    <h2>Bioskopi:<br><br><br></h2>
+    <h2>Bioskopi:<br><input type="button"
+         value="Dodaj bioskop"
+         onclick="location.href='/admin_button_dodaj_bioskop'" /><br></h2>
 
     <table id="movies">
         <tr>
@@ -33,13 +35,15 @@
             <th>Broj telefona</th>
             <th>Email</th>
             <th></th>
+            <th></th>
         </tr>
         <tr th:each="bioskop : ${bioskopi}">
             <td th:text="${bioskop.naziv}"></td>
             <td th:text="${bioskop.adresa}"></td>
             <td th:text="${bioskop.br_telefona}"></td>
             <td th:text="${bioskop.email}"></td>
-            <td><a th:href="@{/obrisi_bioskop/{id}(id=${bioskop.id})}">Obriši</a></td>
+            <td><a th:href="@{/admin_izmeni_bioskop/{id}(id=${bioskop.id})}">Izmeni</a></td>
+            <td><a th:href="@{/admin_obrisi_bioskop/{id}(id=${bioskop.id})}">Obriši</a></td>
         </tr>
     </table>
 
