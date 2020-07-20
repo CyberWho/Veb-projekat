@@ -15,5 +15,7 @@ public interface KorisnikService {
 
     void delete(Long id);
 
+    void deleteIfMoreThanOne(Korisnik korisnik);
+
     List<Korisnik> findAll();
 }

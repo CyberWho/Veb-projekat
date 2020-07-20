@@ -2,6 +2,7 @@ package com.example.vebprojekat.service.implementation;
 
 import com.example.vebprojekat.entity.Admin;
 import com.example.vebprojekat.entity.Korisnik;
+import com.example.vebprojekat.entity.Menadzer;
 import com.example.vebprojekat.entity.UlogaEnum;
 import com.example.vebprojekat.repository.AdminRepository;
 import com.example.vebprojekat.service.AdminService;
@@ -105,35 +106,24 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Boolean approveRegistration(Korisnik korisnik) throws Exception {
+    public Long approveRegistration(Korisnik korisnik) throws Exception {
         Admin superAdmin = findByUsername("SuperAdmin");
 
-        if(korisnik == null) return false;
+        if(korisnik == null) return null;
 
         korisnik.setApproved(true);
         korisnik.setAdmin_approve(null);
         superAdmin.getApprovalList().remove(korisnik);
+        Menadzer novi = new Menadzer();
+
         if (korisnik.getUloga() == UlogaEnum.Uloga.MENADZER) {
-            menadzerService.create(korisnik);
+            novi = menadzerService.create(korisnik);
         } else if(korisnik.getUloga() == UlogaEnum.Uloga.ADMIN){
             create(korisnik);
         }
         update(superAdmin);
 
-        /*List<Korisnik> korisnici = superAdmin.getApprovalList();
-
-        for(Korisnik kor : korisnici){
-            if(korisnik.getId() == kor.getId()){
-                korisnici.remove(kor);
-                kor.setApproved(true);
-                kor.setAdmin_approve(null);
-                superAdmin.setApprovalList(korisnici);
-                korisnikService.update(kor);
-                update(superAdmin);
-                return true;
-            }
-        }*/
-        return true;
+        return novi.getId();
     }
 
 }

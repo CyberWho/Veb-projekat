@@ -20,6 +20,6 @@ public interface AdminService {
 
     void addToApprovalList(Korisnik korisnik) throws Exception;
 
-    Boolean approveRegistration(Korisnik korisnik) throws Exception;
+    Long approveRegistration(Korisnik korisnik) throws Exception;
 
 }

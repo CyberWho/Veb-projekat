@@ -167,8 +167,8 @@ public class KorisnikKontroler {
             trenutniKorisnik.setUlogovan(true);
             trenutniKorisnik.setLozinka(psw);
             trenutniKorisnik.setKorisnicko_ime(un);
-            if(korisnik.getUloga() == UlogaEnum.Uloga.GLEDALAC) return "gledalac_index.html";
-            else if(korisnik.getUloga() == UlogaEnum.Uloga.MENADZER) return "menadzer_index.html";
+            if(korisnik.getUloga() == UlogaEnum.Uloga.GLEDALAC) return "redirect:/gledalac_index";
+            else if(korisnik.getUloga() == UlogaEnum.Uloga.MENADZER) return "redirect:/menadzer_index";
             else if (korisnik.getUloga() == UlogaEnum.Uloga.ADMIN) return "redirect:/admin_index";
         } else {
             System.out.println("Usao sam gde treba, pogresna lozinka!");
@@ -182,6 +182,10 @@ public class KorisnikKontroler {
 
     @GetMapping("/odjava")
     public String odjava(){
+        for(int i = 0; i < 20; i++){
+            if(ulogovan==null) System.out.println("Ulogovan jeste null!!!!!");
+            else System.out.println("Ulogovan nije null");
+        }
         ulogovan.setUlogovan(false);
         return "index.html";
     }

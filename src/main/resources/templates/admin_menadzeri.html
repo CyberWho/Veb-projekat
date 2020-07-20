@@ -24,7 +24,7 @@
     
 
     <h1 id="film"><br>Novosadski bioskopi<br><br></h1>
-    <h2>Korisnici kojima treba odobriti registracije:<br><br><br></h2>
+    <h2>Menadžeri:<br><br><br></h2>
     
     <table id="movies">
         <tr>
@@ -32,6 +32,7 @@
             <th>Ime</th>
             <th>Prezime</th>
             <th>Korisnicko ime</th>
+            <th>Potvrđena registracija</th>
             <th></th>
         </tr>
         <tr th:each="korisnik : ${korisnici}">
@@ -39,9 +40,13 @@
             <td th:text="${korisnik.ime}"></td>
             <td th:text="${korisnik.prezime}"></td>
             <td th:text="${korisnik.korisnicko_ime}"></td>
-            <td><a th:href="@{/odobri_registraciju/{id}(id=${korisnik.id})}">Odobri</a></td>
+            <td th:text="${korisnik.approved} ? 'DA' : 'NE'"></td>
+            <td><a th:href="@{/obrisi_menadzera/{id}(id=${korisnik.id})}">Obriši</a></td>
         </tr>    
+        
+    
     </table>
+    
     
 </body>
 </html>

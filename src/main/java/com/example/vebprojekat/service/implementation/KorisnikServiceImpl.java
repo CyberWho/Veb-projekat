@@ -67,6 +67,21 @@ public class KorisnikServiceImpl implements KorisnikService {
     }
 
     @Override
+    public void deleteIfMoreThanOne(Korisnik korisnik){
+        Integer count=-1;
+        for(Korisnik kor : korisnikRepository.findAll()){
+            if(kor.getKorisnicko_ime().equals(korisnik.getKorisnicko_ime())) count++;
+        }
+
+        for(int i = 0; i < count; i++){
+            korisnik.setAdmin_approve(null);
+            korisnik.setApproved(true);
+            delete(korisnik.getId());
+        }
+
+    }
+
+    @Override
     public List<Korisnik> findAll(){
         List<Korisnik> korisnici = this.korisnikRepository.findAll();
         return korisnici;

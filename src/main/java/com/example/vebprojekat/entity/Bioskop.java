@@ -30,6 +30,8 @@ public class Bioskop {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Sala> sale = new HashSet<Sala>();
 
+    public Bioskop(){}
+
     public Bioskop(Long id, String naziv, String adresa, String br_telefona, String email, Set<Menadzer> menadzeri, Set<Sala> sale) {
         this.id = id;
         this.naziv = naziv;
