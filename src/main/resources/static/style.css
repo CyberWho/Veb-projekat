@@ -17,6 +17,10 @@ h2{
     font-weight: normal;
 }
 
+h3.dodaj{
+    
+}
+
 .container{
     width: 90%;
     margin: 0 auto;
@@ -91,17 +95,22 @@ nav {
     display: inline-block;
 }
 
-.forma.btn {
+input .btnclss{
     background: gray;
     width: 20%;
 }
 
-#menadzer table.profil{
+.forma.btn {
+    background: gray;
+    width: 100%;
+}
+
+/*#menadzer table.profil{
     width 40%;
     color: brown;
     text-align: center;
     border-collapse: collapse;
-}
+}*/
 
 table {
     width: 100%;

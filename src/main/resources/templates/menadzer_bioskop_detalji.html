@@ -29,9 +29,8 @@
             <th>Adresa</th>
             <th>Broj telefona</th>
             <th>Email</th>
-            <th></th>
         </tr>
-        <tr th:each="bioskop : ${bioskopi}">
+        <tr>
             <td th:text="${bioskop.naziv}"></td>
             <td th:text="${bioskop.adresa}"></td>
             <td th:text="${bioskop.br_telefona}"></td>
@@ -40,23 +39,22 @@
     </table><br><br>
     
     <!-- SALE -->
+    <h3 class="dodaj" style="padding: 8px margin-left: .7em font-weight: normal text-decoration: none"><a th:href="@{/menadzer_button_dodaj_salu/{id_mng}/{id_bio}(id_bio=${bioskop.id}, id_mng=${menadzer.id})}">Dodaj salu</a></h3>
     
-    <input type="button"
-         value="Dodaj salu"
-         th:onclick="location.href='/menadzer_button_dodaj_salu/'+${bioskop.id}" /><br>
-    
-    <tabel id="movies">
+    <table id="movies">
         <tr>
             <th>Naziv</th>
             <th>Kapacitet</th>
+            <th></th>
             <th></th>
         </tr>
         <tr th:each="sala : ${sale}">
             <td th:text="${sala.naziv}"></td>
             <td th:text="${sala.kapacitet}"></td>
-            <td><a th:href="@{/menadzer_izmeni_salu/{id}(id=${sala.id})}">Izmeni salu</a></td>
+            <td><a th:href="@{/menadzer_izmeni_salu/{id_mng}/{id_bio}/{id_sala}(id_sala=${sala.id}, id_bio=${bioskop.id}, id_mng=${menadzer.id})}">Izmeni salu</a></td>
+            <td><a th:href="@{/menadzer_obrisi_salu/{id_mng}/{id_bio}/{id_sala}(id_sala=${sala.id}, id_bio=${bioskop.id}, id_mng=${menadzer.id})}">Obriši salu</a></td>
         </tr>
-    </tabel>
+    </table>
 
 </body>
 </html>

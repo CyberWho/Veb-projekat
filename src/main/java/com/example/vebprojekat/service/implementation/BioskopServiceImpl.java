@@ -36,7 +36,7 @@ public class BioskopServiceImpl implements BioskopService {
 
     @Override
     public Bioskop update(Bioskop bioskop) throws Exception{
-        System.out.println("Br mngra u prosledjenom bioskopu: " + bioskop.getMenadzeri().size());
+        //System.out.println("Br mngra u prosledjenom bioskopu: " + bioskop.getMenadzeri().size());
         Bioskop zaAzurirati = this.bioskopRepository.getOne(bioskop.getId());
         if(zaAzurirati == null) throw new Exception("Traženi bioskop ne postoji!");
 

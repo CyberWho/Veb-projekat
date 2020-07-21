@@ -181,10 +181,10 @@ public class AdminKontroler {
 
     @RequestMapping(value = "/admin_izmeni_bioskop_post", method = {RequestMethod.GET, RequestMethod.POST})
     public String admin_izmeni_bioskop_post(@ModelAttribute Bioskop bioskop, Long id) throws Exception {
-        System.out.println("Is empty?? " + bioskop.getNaziv().isEmpty());
-        System.out.println("ID: " + id);
+        //System.out.println("Is empty?? " + bioskop.getNaziv().isEmpty());
+        //System.out.println("ID: " + id);
         Bioskop novi = bioskopService.findOne(id);
-        System.out.println("Novi naziv: " + novi.getNaziv());
+        //System.out.println("Novi naziv: " + novi.getNaziv());
         if(!bioskop.getEmail().isEmpty()) novi.setEmail(bioskop.getEmail());
         if(!bioskop.getAdresa().isEmpty()) novi.setAdresa(bioskop.getAdresa());
         if(!bioskop.getBr_telefona().isEmpty()) novi.setBr_telefona(bioskop.getBr_telefona());

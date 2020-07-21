@@ -15,8 +15,9 @@
                 <ul class="menu">
                     <li><a th:href="${'/'}">Početna</a></li>
                     <li><a th:href="${'/filmovi'}">Filmovi</a></li>
-                    <li><a th:href="${'/prijava'}">Prijava</a></li>
-                    <li><a th:href="${'/registracija'}">Registracija</a></li>
+                    <li><a th:href="${'/profil'}">Profil</a></li>
+                    <li><a th:href="${'/pregled_rezervacija'}">Rezervacije</a></li>
+                    <li><a th:href="${'/odjava'}">Odjava</a></li>
                 </ul>
             </div>
         </div>
@@ -24,10 +25,6 @@
     
     <h1 id="film"><br>Filmovi<br><br></h1>
 
-    <div th:if="${#bools.isTrue(no_films)}">
-            <div style="color: red">Došlo je do greške prilikom registracije.<br>Molimo Vas proverite još jednom unete podatke.</div>
-        </div>
-    
     <table id="movies">
         <tr>
             <th>Naziv</th>
@@ -55,7 +52,7 @@
         
     </table>
     <center><br><br>
-        <form th:action="@{/sortiraj}" th:object="${sort}" method="post" class="forma">
+        <form th:action="@{/gledalac_sortiraj}" th:object="${sort}" method="post" class="forma">
 			<label for="sortiranje">Sortiranje:</label>
             <select type="text" th:field="*{sort}">
                 <option value="1">Opadajuće cene</option>
@@ -65,7 +62,7 @@
 			 <input type="submit" value = "Sortiraj">
 		</form>
     <h2>Pretraga:</h2><br>
-        <form method="post" th:action="@{/filmovi_pretraga}" th:object="${pretraga_string}" class="forma">
+        <form method="post" th:action="@{/gledalac_filmovi_pretraga}" th:object="${pretraga_string}" class="forma">
             <label for="naziv">Naziv: </label>
             <input type="text" name="naziv" th:field="*{naziv}">
             <label for="opis">Opis: </label>

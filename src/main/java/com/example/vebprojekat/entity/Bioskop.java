@@ -32,7 +32,9 @@ public class Bioskop implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Menadzer> menadzeri = new HashSet<Menadzer>();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "bioskop", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Sala> sale = new HashSet<Sala>();
 
     public Bioskop(){}

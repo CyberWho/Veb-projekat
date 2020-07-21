@@ -21,24 +21,20 @@
         </div>
     </nav>
     <h1 id="film"><br>Novosadski bioskopi<br><br></h1>
-    <h2>Bioskopi:</h2><br>
+    <h2></h2><br>
 
-    <table id="movies">
-        <tr>
-            <th>Naziv</th>
-            <th>Adresa</th>
-            <th>Broj telefona</th>
-            <th>Email</th>
-            <th></th>
-        </tr>
-        <tr th:each="bioskop : ${bioskopi}">
-            <td th:text="${bioskop.naziv}"></td>
-            <td th:text="${bioskop.adresa}"></td>
-            <td th:text="${bioskop.br_telefona}"></td>
-            <td th:text="${bioskop.email}"></td>
-            <td><a th:href="@{/menadzer_bioskop_detalji/{id_mng}/{id_bio}(id_mng=${menadzer.id}, id_bio=${bioskop.id})}">Detalji</a></td>   
-        </tr>
-    </table>
+    <center>
+        <form method="post" th:action="@{/menadzer_dodaj_salu_upis/{id_mng}/{id_bio}(id_bio=${bioskop.id}, id_mng=${menadzer.id})}" th:object="${sala}" class="forma">
+            <label for="naziv">Naziv: </label>
+            <input type="text" id="naziv" th:field="*{naziv}" required/>
+            <br/>
+            <label for="kapacitet">Kapacitet: </label>
+            <input type="text" id="kapacitet" th:field="*{kapacitet}" required/><br/><br>
+            <input class="btn" type="submit" value="Potvrda">
+        </form>
+    
+    
+    </center>
 
 </body>
 </html>

@@ -2,8 +2,6 @@ package com.example.vebprojekat.entity;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,13 +20,12 @@ public class Sala implements Serializable {
     @Column
     private String naziv;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @NotFound(action = NotFoundAction.IGNORE)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Bioskop bioskop;
 
     @ManyToMany(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
-    private Set<Projekcija> listaProjekcija = new HashSet<Projekcija>();
+    private Set<Projekcija> lista_projekcija = new HashSet<Projekcija>();
 
     public Sala(){}
 
@@ -64,11 +61,11 @@ public class Sala implements Serializable {
         this.bioskop = bioskop;
     }
 
-    public Set<Projekcija> getListaProjekcija() {
-        return listaProjekcija;
+    public Set<Projekcija> getLista_projekcija() {
+        return lista_projekcija;
     }
 
-    public void setListaProjekcija(Set<Projekcija> listaProjekcija) {
-        this.listaProjekcija = listaProjekcija;
+    public void setLista_projekcija(Set<Projekcija> listaProjekcija) {
+        this.lista_projekcija = listaProjekcija;
     }
 }

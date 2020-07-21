@@ -1,13 +1,11 @@
 package com.example.vebprojekat.service.implementation;
 
-import com.example.vebprojekat.entity.Korisnik;
 import com.example.vebprojekat.entity.Sala;
 import com.example.vebprojekat.repository.SalaRepository;
 import com.example.vebprojekat.service.SalaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.OverridesAttribute;
 import java.util.List;
 
 @Service
@@ -37,12 +35,12 @@ public class SalaServiceImpl implements SalaService {
 
         zaAzurirati.setKapacitet(sala.getKapacitet());
         zaAzurirati.setNaziv(sala.getNaziv());
-        zaAzurirati.setListaProjekcija(sala.getListaProjekcija());
+        zaAzurirati.setLista_projekcija(sala.getLista_projekcija());
 
-        delete(sala.getId());
+        //delete(sala.getId());
+        //Sala novi = this.salaRepository.save(zaAzurirati);
 
-        Sala novi = this.salaRepository.save(zaAzurirati);
-        return novi;
+        return zaAzurirati;
     }
 
     @Override

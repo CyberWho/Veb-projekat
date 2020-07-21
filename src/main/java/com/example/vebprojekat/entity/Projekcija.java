@@ -8,11 +8,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.LinkedList;
 
 @Entity
 public class Projekcija implements Serializable {
@@ -27,9 +25,10 @@ public class Projekcija implements Serializable {
     private Integer cena;
 
     @Column
-    private Date datum_vreme;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime datumvreme;
 
-    @ManyToMany(mappedBy = "listaProjekcija" , fetch = FetchType.EAGER , cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "lista_projekcija" , fetch = FetchType.EAGER , cascade = CascadeType.ALL)
     private Set<Sala> sale = new HashSet<Sala>();
 
     @ManyToOne(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
@@ -42,11 +41,11 @@ public class Projekcija implements Serializable {
 
     public Projekcija(){}
 
-    public Projekcija(Long id, Film film, Integer cena, Date datum_vreme, Set<Sala> sale, Bioskop bioskop, Set<Gledalac> gledaoci) {
+    public Projekcija(Long id, Film film, Integer cena, LocalDateTime datumvreme, Set<Sala> sale, Bioskop bioskop, Set<Gledalac> gledaoci) {
         this.id = id;
         this.film = film;
         this.cena = cena;
-        this.datum_vreme = datum_vreme;
+        this.datumvreme = datumvreme;
         this.sale = sale;
         this.bioskop = bioskop;
         this.gledaoci = gledaoci;
@@ -76,12 +75,12 @@ public class Projekcija implements Serializable {
         this.cena = cena;
     }
 
-    public Date getDatum_vreme() {
-        return datum_vreme;
+    public LocalDateTime getDatumvreme() {
+        return datumvreme;
     }
 
-    public void setDatum_vreme(Date datum_vreme) {
-        this.datum_vreme = datum_vreme;
+    public void setDatumvreme(LocalDateTime datum_vreme) {
+        this.datumvreme = datum_vreme;
     }
 
     public Set<Sala> getSale() {

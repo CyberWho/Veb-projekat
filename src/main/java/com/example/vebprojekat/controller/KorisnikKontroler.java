@@ -184,10 +184,6 @@ public class KorisnikKontroler {
 
     @GetMapping("/odjava")
     public String odjava(){
-        for(int i = 0; i < 20; i++){
-            if(ulogovan==null) System.out.println("Ulogovan jeste null!!!!!");
-            else System.out.println("Ulogovan nije null");
-        }
         ulogovan.setUlogovan(false);
         return "index.html";
     }
@@ -269,6 +265,7 @@ public class KorisnikKontroler {
 
         return new ResponseEntity<>(korisnikDTO, HttpStatus.OK);
     }
+
 
     // GRESKE ------------------------------------------------
 
