@@ -33,4 +33,7 @@ INSERT INTO Projekcija (film_id,bioskop_id, cena, datumvreme) VALUES (4, 1, 450,
 INSERT INTO Projekcija (film_id,bioskop_id, cena, datumvreme) VALUES (5, 2, 250, '2020-7-26 15:00');
 INSERT INTO Projekcija (film_id,bioskop_id, cena, datumvreme) VALUES (6, 2, 250, '2020-7-25 16:00');
 
+INSERT INTO KORISNIK_REZERVISANE_KARTE(gledaoci_id, rezervisane_karte_id) VALUES (1, 3);
+INSERT INTO KORISNIK_REZERVISANE_KARTE(gledaoci_id, rezervisane_karte_id) VALUES (1, 4);
+
 --INSERT INTO SALA_LISTA_TERMINSKIH_PROJEKCIJA(sala_id, lista_terminskih_projekcija_id) VALUES ()

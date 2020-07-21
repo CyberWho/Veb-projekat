@@ -20,6 +20,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class KorisnikKontroler {
@@ -44,6 +45,9 @@ public class KorisnikKontroler {
 
     @Autowired
     private SalaService salaService;
+
+    @Autowired
+    private ProjekcijaService projekcijaService;
 
     public Ulogovan ulogovan;
 
@@ -81,6 +85,17 @@ public class KorisnikKontroler {
     public String gledalac_index(){
         if(ulogovan.getUloga() == UlogaEnum.Uloga.GLEDALAC) return "gledalac_index.html";
         else return "no_access.html";
+    }
+
+    
+    @GetMapping("/pregled_rezervacija")
+    public String rezervacije(Model model){
+
+        Gledalac g = gledalacService.findByUsername(ulogovan.getKorisnicko_ime());
+        Set<Projekcija> rezervacije = g.getRezervisane_karte();
+        model.addAttribute("rezervacije", rezervacije);
+
+        return "pregled_rezervacija.html";
     }
 
     @GetMapping("/menadzer_index")

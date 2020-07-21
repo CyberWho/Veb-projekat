@@ -25,7 +25,6 @@ public class Projekcija implements Serializable {
     private Integer cena;
 
     @Column
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime datumvreme;
 
     @ManyToMany(mappedBy = "lista_projekcija" , fetch = FetchType.EAGER , cascade = CascadeType.ALL)

@@ -2,6 +2,7 @@ package com.example.vebprojekat.service.implementation;
 
 import com.example.vebprojekat.entity.Gledalac;
 import com.example.vebprojekat.entity.Korisnik;
+import com.example.vebprojekat.entity.Menadzer;
 import com.example.vebprojekat.entity.UlogaEnum;
 import com.example.vebprojekat.repository.GledalacRepository;
 import com.example.vebprojekat.service.GledalacService;
@@ -71,6 +72,17 @@ public class GledalacServiceImpl implements GledalacService {
     public List<Gledalac> findAll(){
         List<Gledalac> gledaoci = this.gledalacRepository.findAll();
         return gledaoci;
+    }
+
+    @Override
+    public Gledalac findByUsername(String username){
+        List<Gledalac> gledaoci = findAll();
+        for(Gledalac gledalac : gledaoci){
+            if(gledalac.getKorisnicko_ime().equals(username)){
+                return gledalac ;
+            }
+        }
+        return null;
     }
 
 }

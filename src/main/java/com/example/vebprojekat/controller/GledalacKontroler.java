@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class GledalacKontroler {
@@ -24,12 +25,6 @@ public class GledalacKontroler {
 
     @Autowired
     GledalacService gledalacService;
-
-    @GetMapping("/pregled_rezervacija")
-    public String rezervacije(Model model){
-        return "pregled_rezervacija.html";
-    }
-
 
 
     @PostMapping("/gledalac_filmovi_pretraga")

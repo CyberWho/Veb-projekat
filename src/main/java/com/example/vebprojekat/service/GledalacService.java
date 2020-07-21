@@ -15,4 +15,6 @@ public interface GledalacService {
     void delete(Long id);
 
     List<Gledalac> findAll();
+
+    Gledalac findByUsername(String username);
 }
