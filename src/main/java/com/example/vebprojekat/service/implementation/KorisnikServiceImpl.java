@@ -56,9 +56,7 @@ public class KorisnikServiceImpl implements KorisnikService {
         zaAzurirati.setKontakt_tel(korisnik.getKontakt_tel());
         zaAzurirati.setApproved(korisnik.getApproved());
 
-        Korisnik novi = this.korisnikRepository.save(zaAzurirati);
-
-        return novi;
+        return korisnikRepository.save(zaAzurirati);
     }
 
     @Override
@@ -76,7 +74,7 @@ public class KorisnikServiceImpl implements KorisnikService {
         for(int i = 0; i < count; i++){
             korisnik.setAdmin_approve(null);
             korisnik.setApproved(true);
-            delete(korisnik.getId());
+            delete(findByUsername(korisnik.getKorisnicko_ime()).getId());
         }
 
     }

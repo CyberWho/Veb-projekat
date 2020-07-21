@@ -1,5 +1,6 @@
 package com.example.vebprojekat.service.implementation;
 
+import com.example.vebprojekat.entity.Bioskop;
 import com.example.vebprojekat.entity.Korisnik;
 import com.example.vebprojekat.entity.Menadzer;
 import com.example.vebprojekat.entity.UlogaEnum;
@@ -44,7 +45,7 @@ public class MenadzerServiceImpl implements MenadzerService {
 
     @Override
     public Menadzer update(Menadzer menadzer) throws Exception{
-        Menadzer zaAzurirati = this.menadzerRepository.getOne(menadzer.getId());
+        Menadzer zaAzurirati = menadzerRepository.getOne(menadzer.getId());
         if(zaAzurirati == null) throw new Exception("Traženi menadžer ne postoji!");
 
         zaAzurirati.setIme(menadzer.getIme());
@@ -56,11 +57,14 @@ public class MenadzerServiceImpl implements MenadzerService {
         zaAzurirati.setLozinka(menadzer.getLozinka());
         zaAzurirati.setUloga(menadzer.getUloga());
         zaAzurirati.setKontakt_tel(menadzer.getKontakt_tel());
-        zaAzurirati.setBioskop(menadzer.getBioskop());
+        zaAzurirati.setBioskopi(menadzer.getBioskopi());
         zaAzurirati.setApproved(menadzer.getApproved());
 
-        Menadzer novi = this.menadzerRepository.save(zaAzurirati);
-        return novi;
+
+        //Menadzer novi = this.menadzerRepository.save(zaAzurirati);
+
+
+        return zaAzurirati;
     }
 
     @Override
@@ -73,4 +77,21 @@ public class MenadzerServiceImpl implements MenadzerService {
         List<Menadzer> menadzeri = this.menadzerRepository.findAll();
         return menadzeri;
     }
+
+    @Override
+    public Menadzer findByUsername(String username){
+        List<Menadzer> menadzeri = findAll();
+        for(Menadzer menadzer : menadzeri){
+            if(menadzer.getKorisnicko_ime().equals(username)){
+                return menadzer;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void save(Menadzer menadzer){
+        menadzerRepository.save(menadzer);
+    }
+
 }

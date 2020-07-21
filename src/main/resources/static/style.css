@@ -96,6 +96,13 @@ nav {
     width: 20%;
 }
 
+#menadzer table.profil{
+    width 40%;
+    color: brown;
+    text-align: center;
+    border-collapse: collapse;
+}
+
 table {
     width: 100%;
     color: brown;
@@ -108,3 +115,4 @@ th, td {
   text-align: left;
   border-bottom: 1px solid #dc3545;
 }
+

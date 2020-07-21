@@ -4,6 +4,7 @@ INSERT INTO Korisnik(type, id, lozinka, ime, prezime, kontakt_tel, email, datum,
 INSERT INTO Korisnik(type, id, lozinka, ime, prezime, kontakt_tel, email, datum, uloga, aktivan, korisnicko_ime, approved) VALUES ('Gledalac', 4, 'pedja', 'Predrag', 'Despotovic', '245564', 'despotovicpedja@gmail.com', '2020-06-18', 0, true, 'Pedja', true);
 INSERT INTO Korisnik(type, id, lozinka, ime, prezime, kontakt_tel, email, datum, uloga, aktivan, korisnicko_ime, approved, super_admin) VALUES ('Admin', 5, 'adminpass', 'Admin', 'Adminovic', 'XXXXXX', 'admin@bioskopi.rs', '0001-01-01', 2, true, 'SuperAdmin', true, true);
 INSERT INTO Korisnik(type, id, lozinka, ime, prezime, kontakt_tel, email, datum, uloga, aktivan, korisnicko_ime, approved) VALUES ('Menadzer', 6, 'pass', 'Nikola', 'Nikolic', '564212', 'nikola@bioskopi.rs', '2020-06-19', 1, true, 'nikola_mngr', false);
+INSERT INTO Korisnik(type, id, lozinka, ime, prezime, kontakt_tel, email, datum, uloga, aktivan, korisnicko_ime, approved) VALUES ('Menadzer', 7, 'pass', 'Darko', 'Darkovic', '564212', 'darko@bioskopi.rs', '2020-06-19', 1, true, 'darko_mngr', true);
 
 
 INSERT INTO Bioskop(id, naziv, adresa, br_telefona, email) VALUES (1, 'Bioskop1', 'Mihajla Pupina 20', '455000', 'bioskop1@bioskopi.rs');
@@ -14,3 +15,5 @@ INSERT INTO Film(id, naziv, opis, zanr, trajanje, prosecna_ocena) VALUES (2, 'Pl
 INSERT INTO Film(id, naziv, opis, zanr, trajanje, prosecna_ocena) VALUES (3, 'Kad porastem biću kengur', 'kengur', 'komedija', 99, 8.6);
 INSERT INTO Film(id, naziv, opis, zanr, trajanje, prosecna_ocena) VALUES (4, 'Balkanska međa', 'kengur', 'triler', 151, 8.1);
 INSERT INTO Film(id, naziv, opis, zanr, trajanje, prosecna_ocena) VALUES (5, 'Balkanski špijun', 'opis', 'drama', 99, 9);
+
+INSERT INTO KORISNIK_BIOSKOPI(MENADZERI_ID, BIOSKOPI_ID) VALUES (3, 1);

@@ -13,20 +13,15 @@
             </div>
             <div class="navbar">
                 <ul class="menu">
-                    <li><a th:href="${'/'}">Početna</a></li>
-                    <li><a th:href="${'/admin_bioskopi'}">Bioskopi</a></li>
-                    <li><a th:href="${'/admin_menadzeri'}">Menadzeri</a></li>
+                    <li><a th:href="${'/menadzer_index'}">Početna</a></li>
+                    <li><a th:href="@{/menadzer_bioskopi/{id}(id=${menadzer.id})}">Bioskopi</a></li>
                     <li><a th:href="${'/odjava'}">Odjava</a></li>
                 </ul>
             </div>
         </div>
     </nav>
-
-
     <h1 id="film"><br>Novosadski bioskopi<br><br></h1>
-    <h2>Bioskopi:<br><input type="button"
-         value="Dodaj bioskop"
-         onclick="location.href='/admin_button_dodaj_bioskop'" /><br></h2>
+    <h2>Bioskopi:</h2><br>
 
     <table id="movies">
         <tr>
@@ -35,17 +30,13 @@
             <th>Broj telefona</th>
             <th>Email</th>
             <th></th>
-            <th></th>
-            <th></th>
         </tr>
         <tr th:each="bioskop : ${bioskopi}">
             <td th:text="${bioskop.naziv}"></td>
             <td th:text="${bioskop.adresa}"></td>
             <td th:text="${bioskop.br_telefona}"></td>
             <td th:text="${bioskop.email}"></td>
-            <td><a th:href="@{/admin_izmeni_bioskop/{id}(id=${bioskop.id})}">Izmeni</a></td>
-            <td><a th:href="@{/admin_obrisi_bioskop/{id}(id=${bioskop.id})}">Obriši</a></td>
-            <td><a th:href="@{/admin_dodaj_bioskopu_menadzera/{id}(id=${bioskop.id})}">Dodaj menadžera</a></td>
+            <td><a th:href="@{/menadzer_bioskop_detalji/{id}(id=${bioskop.id})}">Detalji</a></td>   
         </tr>
     </table>
 

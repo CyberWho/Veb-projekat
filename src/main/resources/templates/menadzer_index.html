@@ -14,7 +14,7 @@
         <div class="navbar">
             <ul class="menu">
                 <li><a th:href="${'/menadzer_index'}">Početna</a></li>
-                <li><a th:href="${'/menadzer_biskopi'}">Bioskopi</a></li>
+                <li><a th:href="@{/menadzer_bioskopi/{id}(id=${menadzer.id})}">Bioskopi</a></li>
                 <li><a th:href="${'/odjava'}">Odjava</a></li>
             </ul>
         </div>
@@ -24,26 +24,28 @@
 
 <h1 id="film"><br>Novosadski bioskopi<br><br></h1>
 <h2>Korisnici kojima treba odobriti registracije:<br><br><br></h2>
-
-<table id="movies">
-    <tr>
-        <td>Uloga</td>
-        <td th:text="${menadzer.uloga}"></td>
-    </tr>
-    <tr>
-        <td>Ime</td>
-        <td th:text="${menadzer.ime}"></td>
-    </tr>
-    <tr>
-        <td>Prezime</td>
-        <td th:text="${menadzer.prezime}"></td>
-    </tr>
-    <tr>
-        <td>Korisnicko ime</td>
-        <td th:text="${menadzer.korisnicko_ime}"></td>
-    </tr>
-</table>
-
+<center>
+    <div id="menadzer">
+    <table class="profil">
+        <tr>
+            <td>Uloga</td>
+            <td th:text="${menadzer.uloga}"></td>
+        </tr>
+        <tr>
+            <td>Ime</td>
+            <td th:text="${menadzer.ime}"></td>
+        </tr>
+        <tr>
+            <td>Prezime</td>
+            <td th:text="${menadzer.prezime}"></td>
+        </tr>
+        <tr>
+            <td>Korisnicko ime</td>
+            <td th:text="${menadzer.korisnicko_ime}"></td>
+        </tr>
+    </table>
+    </div>
+</center>
 
 </body>
 </html>

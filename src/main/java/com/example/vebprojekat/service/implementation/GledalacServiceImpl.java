@@ -56,7 +56,7 @@ public class GledalacServiceImpl implements GledalacService {
         zaAzurirati.setKontakt_tel(gledalac.getKontakt_tel());
         zaAzurirati.setOcenjeni_filmovi(gledalac.getOcenjeni_filmovi());
         zaAzurirati.setOdgledani_filmovi(gledalac.getOdgledani_filmovi());
-        zaAzurirati.setRezervisani_filmovi(gledalac.getRezervisani_filmovi());
+        zaAzurirati.setRezervisane_karte(gledalac.getRezervisane_karte());
 
         Gledalac novi = this.gledalacRepository.save(zaAzurirati);
         return novi;

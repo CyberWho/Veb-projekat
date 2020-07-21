@@ -24,6 +24,8 @@ import java.util.List;
 @Controller
 public class KorisnikKontroler {
 
+    @Autowired
+    private BioskopService bioskopService;
 
     @Autowired
     private FilmService filmService;
@@ -82,8 +84,13 @@ public class KorisnikKontroler {
     }
 
     @GetMapping("/menadzer_index")
-    public String menadzer_index(){
-        if(ulogovan.getUloga() == UlogaEnum.Uloga.MENADZER) return "menadzer_index.html";
+    public String menadzer_index(Model model){
+        if(ulogovan.getUloga() == UlogaEnum.Uloga.MENADZER){
+            Menadzer menadzer = menadzerService.findOne(ulogovan.getId());
+            model.addAttribute("menadzer", menadzer);
+
+            return "menadzer_index.html";
+        }
         else return "no_access.html";
     }
 
@@ -237,8 +244,7 @@ public class KorisnikKontroler {
             adminService.addToApprovalList(novi_mng);
             return "ceka_odobrenje.html";
         } else if (korisnik.getUloga() == UlogaEnum.Uloga.ADMIN) {
-            Admin novi_adm = adminService.create(korisnikService.create(korisnik));
-
+            Admin novi_adm = adminService.create(korisnik);
             adminService.addToApprovalList(novi_adm);
             return "ceka_odobrenje.html";
         }

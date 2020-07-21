@@ -1,8 +1,10 @@
 package com.example.vebprojekat.entity;
 
-import org.hibernate.annotations.JoinColumnOrFormula;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,7 +27,9 @@ public class Bioskop implements Serializable {
     @Column
     private String email;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "bioskopi" , fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Menadzer> menadzeri = new HashSet<Menadzer>();
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

@@ -36,8 +36,10 @@ public class SalaServiceImpl implements SalaService {
         if(zaAzurirati == null) throw new Exception("Tražena sala ne postoji!");
 
         zaAzurirati.setKapacitet(sala.getKapacitet());
-        zaAzurirati.setOznaka(sala.getOznaka());
-        zaAzurirati.setTerminska_lista(sala.getTerminska_lista());
+        zaAzurirati.setNaziv(sala.getNaziv());
+        zaAzurirati.setListaProjekcija(sala.getListaProjekcija());
+
+        delete(sala.getId());
 
         Sala novi = this.salaRepository.save(zaAzurirati);
         return novi;

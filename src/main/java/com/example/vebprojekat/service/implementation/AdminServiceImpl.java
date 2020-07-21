@@ -38,6 +38,8 @@ public class AdminServiceImpl implements AdminService {
         novi.setDatum(korisnik.getDatum());
         novi.setUloga(UlogaEnum.Uloga.ADMIN);
         novi.setAktivan(korisnik.getAktivan());
+        novi.setApproved(korisnik.getApproved());
+        novi.setAdmin_approve(korisnik.getAdmin_approve());
 
         return adminRepository.save(novi);
     }
@@ -50,8 +52,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin update(Admin admin) throws Exception{
-        Admin zaAzurirati = this.adminRepository.getOne(admin.getId());
-        delete(admin.getId());
+        Admin zaAzurirati = adminRepository.getOne(admin.getId());
+        //delete(admin.getId());
 
         if(zaAzurirati == null) throw new Exception("Traženi admin ne postoji!");
 
@@ -68,14 +70,12 @@ public class AdminServiceImpl implements AdminService {
         zaAzurirati.setApprovalList(admin.getApprovalList());
         zaAzurirati.setApproved(admin.getApproved());
 
-        Admin novi = this.adminRepository.save(zaAzurirati);
-
-        return novi;
+        return adminRepository.save(zaAzurirati);
     }
 
     @Override
     public void delete(Long id){
-        this.adminRepository.deleteById(id);
+        adminRepository.deleteById(id);
     }
 
     @Override
@@ -98,6 +98,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void addToApprovalList(Korisnik korisnik) throws Exception {
         Admin superAdmin = findByUsername("SuperAdmin");
+        if(superAdmin==null) throw new Exception("SuperAdmin je null!");
         superAdmin.getApprovalList().add(korisnik);
         korisnik.setAdmin_approve(superAdmin);
 
@@ -116,14 +117,41 @@ public class AdminServiceImpl implements AdminService {
         superAdmin.getApprovalList().remove(korisnik);
         Menadzer novi = new Menadzer();
 
+        novi.setKorisnicko_ime(korisnik.getKorisnicko_ime());
+        novi.setLozinka(korisnik.getLozinka());
+        novi.setIme(korisnik.getIme());
+        novi.setPrezime(korisnik.getPrezime());
+        novi.setKontakt_tel(korisnik.getKontakt_tel());
+        novi.setEmail(korisnik.getEmail());
+        novi.setDatum(korisnik.getDatum());
+        novi.setUloga(UlogaEnum.Uloga.MENADZER);
+        novi.setAktivan(korisnik.getAktivan());
+        novi.setApproved(korisnik.getApproved());
+        novi.setAdmin_approve(korisnik.getAdmin_approve());
+
         if (korisnik.getUloga() == UlogaEnum.Uloga.MENADZER) {
-            novi = menadzerService.create(korisnik);
+            menadzerService.save(novi);
         } else if(korisnik.getUloga() == UlogaEnum.Uloga.ADMIN){
-            create(korisnik);
+            //create(korisnik);
         }
         update(superAdmin);
 
         return novi.getId();
+    }
+
+    @Override
+    public void deleteIfMoreThanOne(Admin korisnik){
+        Integer count=-1;
+        for(Admin kor : adminRepository.findAll()){
+            if(kor.getKorisnicko_ime().equals(korisnik.getKorisnicko_ime())) count++;
+        }
+
+        for(int i = 0; i < count; i++){
+            korisnik.setAdmin_approve(null);
+            korisnik.setApproved(true);
+            delete(findByUsername(korisnik.getKorisnicko_ime()).getId());
+        }
+
     }
 
 }

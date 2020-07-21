@@ -1,18 +1,24 @@
 package com.example.vebprojekat.service.implementation;
 
 import com.example.vebprojekat.entity.Bioskop;
+import com.example.vebprojekat.entity.Menadzer;
 import com.example.vebprojekat.repository.BioskopRepository;
 import com.example.vebprojekat.service.BioskopService;
+import com.example.vebprojekat.service.MenadzerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class BioskopServiceImpl implements BioskopService {
 
     @Autowired
     private BioskopRepository bioskopRepository;
+
+    @Autowired
+    private MenadzerService menadzerService;
 
     @Override
     public Bioskop create(Bioskop bioskop) throws Exception{
@@ -30,6 +36,7 @@ public class BioskopServiceImpl implements BioskopService {
 
     @Override
     public Bioskop update(Bioskop bioskop) throws Exception{
+        System.out.println("Br mngra u prosledjenom bioskopu: " + bioskop.getMenadzeri().size());
         Bioskop zaAzurirati = this.bioskopRepository.getOne(bioskop.getId());
         if(zaAzurirati == null) throw new Exception("Traženi bioskop ne postoji!");
 
@@ -40,11 +47,14 @@ public class BioskopServiceImpl implements BioskopService {
         zaAzurirati.setSale(bioskop.getSale());
         zaAzurirati.setMenadzeri(bioskop.getMenadzeri());
 
-        delete(bioskop.getId());
-        Bioskop novi = this.bioskopRepository.save(zaAzurirati);
+        //delete(bioskop.getId());
 
-        return novi;
+        //Bioskop novi = this.bioskopRepository.save(zaAzurirati);
+
+
+        return bioskopRepository.save(zaAzurirati);
     }
+
 
     @Override
     public void delete(Long id){
@@ -55,5 +65,16 @@ public class BioskopServiceImpl implements BioskopService {
     public List<Bioskop> findAll(){
         List<Bioskop> bioskopi = this.bioskopRepository.findAll();
         return bioskopi;
+    }
+
+    @Override
+    public Bioskop findByNaziv(String naziv){
+        List<Bioskop> bioskopi = findAll();
+        for(Bioskop bioskop : bioskopi){
+            if(bioskop.getNaziv().equals(naziv)){
+                return bioskop;
+            }
+        }
+        return null;
     }
 }

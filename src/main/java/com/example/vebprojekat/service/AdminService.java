@@ -22,4 +22,5 @@ public interface AdminService {
 
     Long approveRegistration(Korisnik korisnik) throws Exception;
 
+    void deleteIfMoreThanOne(Admin korisnik);
 }

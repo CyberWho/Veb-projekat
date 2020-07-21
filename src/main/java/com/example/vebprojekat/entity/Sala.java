@@ -1,11 +1,17 @@
 package com.example.vebprojekat.entity;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Sala {
+public class Sala implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,17 +20,17 @@ public class Sala {
     private Integer kapacitet;
 
     @Column
-    private String oznaka;
+    private String naziv;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private TerminskaLista terminska_lista = new TerminskaLista();
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Bioskop bioskop;
 
-    public Sala(Long id, Integer kapacitet, String oznaka, TerminskaLista terminska_lista) {
-        this.id = id;
-        this.kapacitet = kapacitet;
-        this.oznaka = oznaka;
-        this.terminska_lista = terminska_lista;
-    }
+    @ManyToMany(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
+    private Set<Projekcija> listaProjekcija = new HashSet<Projekcija>();
+
+    public Sala(){}
 
     public Long getId() {
         return id;
@@ -42,19 +48,27 @@ public class Sala {
         this.kapacitet = kapacitet;
     }
 
-    public String getOznaka() {
-        return oznaka;
+    public String getNaziv() {
+        return naziv;
     }
 
-    public void setOznaka(String oznaka) {
-        this.oznaka = oznaka;
+    public void setNaziv(String naziv) {
+        this.naziv = naziv;
     }
 
-    public TerminskaLista getTerminska_lista() {
-        return terminska_lista;
+    public Bioskop getBioskop() {
+        return bioskop;
     }
 
-    public void setTerminska_lista(TerminskaLista terminska_lista) {
-        this.terminska_lista = terminska_lista;
+    public void setBioskop(Bioskop bioskop) {
+        this.bioskop = bioskop;
+    }
+
+    public Set<Projekcija> getListaProjekcija() {
+        return listaProjekcija;
+    }
+
+    public void setListaProjekcija(Set<Projekcija> listaProjekcija) {
+        this.listaProjekcija = listaProjekcija;
     }
 }

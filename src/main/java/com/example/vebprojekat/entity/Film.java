@@ -2,8 +2,6 @@ package com.example.vebprojekat.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Time;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -34,12 +32,12 @@ public class Film implements Serializable {
             joinColumns = @JoinColumn(name = "film_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "projekcija_id", referencedColumnName = "id")
     )
-    private Set<TerminskaLista> terminske_liste = new HashSet<TerminskaLista>();
+    private Set<Projekcija> terminske_liste = new HashSet<Projekcija>();
      */
 
     public Film(){}
 
-    public Film(Long id, String naziv, String opis, String zanr, Integer trajanje, Double prosecna_ocena, Set<TerminskaLista> terminske_liste) {
+    public Film(Long id, String naziv, String opis, String zanr, Integer trajanje, Double prosecna_ocena, Set<Projekcija> terminske_liste) {
         this.id = id;
         this.naziv = naziv;
         this.opis = opis;
@@ -98,11 +96,11 @@ public class Film implements Serializable {
     }
 
     /*
-    public Set<TerminskaLista> getTerminske_liste() {
+    public Set<Projekcija> getTerminske_liste() {
         return terminske_liste;
     }
 
-    public void setTerminske_liste(Set<TerminskaLista> terminske_liste) {
+    public void setTerminske_liste(Set<Projekcija> terminske_liste) {
         this.terminske_liste = terminske_liste;
     }
     */

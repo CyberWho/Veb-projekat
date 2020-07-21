@@ -15,4 +15,8 @@ public interface MenadzerService {
     void delete(Long id);
 
     List<Menadzer> findAll();
+
+    Menadzer findByUsername(String username);
+
+    void save(Menadzer menadzer);
 }

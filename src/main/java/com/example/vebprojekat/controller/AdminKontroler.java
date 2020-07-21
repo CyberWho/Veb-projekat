@@ -15,7 +15,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class AdminKontroler {
@@ -52,6 +55,17 @@ public class AdminKontroler {
     @GetMapping("/obrisi_menadzera/{id}")
     public String obrisi_menadzera(@PathVariable(name = "id") Long id, Model model) throws Exception{
         Menadzer menadzer = menadzerService.findOne(id);
+
+        Set<Bioskop> bioskopi = menadzer.getBioskopi();
+
+
+        for(Bioskop bioskop : bioskopi){
+            System.out.println(bioskop.getMenadzeri().size());
+            if(bioskop.getMenadzeri().size()==1){
+                return "poslednji_menadzer.html";
+            }
+        }
+
         Long new_id = null;
         if(!menadzer.getApproved()){
             new_id = adminService.approveRegistration(korisnikService.findOne(id));
@@ -59,6 +73,33 @@ public class AdminKontroler {
         menadzerService.delete(new_id);
         return "redirect:/admin_menadzeri";
 
+    }
+
+    @GetMapping("/admin_menadzer_detalji/{id}")
+    public String admin_menadzer_detalji(@PathVariable(name = "id") Long id, Model model) throws Exception{
+        Menadzer menadzer = menadzerService.findOne(id);
+        System.out.println("Br bioskopa za ovgo menadzera: " + menadzer.getBioskopi().size());
+        Set<Bioskop> bioskopi = menadzer.getBioskopi();
+        model.addAttribute("korisnik", menadzer);
+        model.addAttribute("bioskopi", bioskopi);
+        model.addAttribute("last_mng", false);
+        return "admin_menadzer_detalji.html";
+    }
+
+    @GetMapping("/admin_menadzer_detalji_ukloni_menadzera/{id}/{id_mng}")
+    public String admin_menadzer_detalji_ukloni_menadzera(@PathVariable(name = "id") Long id, @PathVariable(name = "id_mng") Long id_mng) throws Exception{
+        Bioskop bioskop = bioskopService.findOne(id);
+        Menadzer menadzer = menadzerService.findOne(id_mng);
+
+        if(bioskop.getMenadzeri().size()==1){
+            return "poslednji_menadzer.html";
+        }
+        bioskop.getMenadzeri().remove(menadzer);
+        menadzer.getBioskopi().remove(bioskop);
+
+        bioskopService.update(bioskop);
+
+        return "redirect:/admin_menadzer_detalji/" + id_mng;
     }
 
 
@@ -74,7 +115,45 @@ public class AdminKontroler {
 
     @GetMapping("/admin_obrisi_bioskop/{id}")
     public String admin_obrisi_bioskop(@PathVariable(name = "id") Long id, Model model) throws Exception{
+        Bioskop bioskop = bioskopService.findOne(id);
         bioskopService.delete(id);
+        List<Menadzer> menadzeri = menadzerService.findAll();
+
+        for(Menadzer menadzer : menadzeri){
+            if(menadzer.getBioskopi().contains(bioskop)){
+                menadzer.getBioskopi().remove(bioskop);
+                menadzerService.update(menadzer);
+            }
+        }
+
+        return "redirect:/admin_bioskopi";
+    }
+
+    @GetMapping("/admin_dodaj_bioskopu_menadzera/{id}")
+    public String admin_dodaj_bioskopu_menadzera(@PathVariable(name = "id") Long id, Model model) throws Exception{
+        Bioskop bioskop = bioskopService.findOne(id);
+        List<Menadzer> menadzeri_model = new ArrayList<>();
+        List<Menadzer> menadzeri = menadzerService.findAll();
+
+
+        for(Menadzer menadzer : menadzeri) {
+            if(!menadzer.getBioskopi().contains(bioskop) && menadzer.getApproved()) menadzeri_model.add(menadzer);
+        }
+        model.addAttribute("korisnici", menadzeri_model);
+        model.addAttribute("bioskop", bioskop);
+
+        return "admin_dodaj_bioskopu_menadzera.html";
+    }
+
+    @GetMapping("/admin_dodaj_bioskopu_menadzera/{id}/{id_mng}")
+    public String admin_dodaj_bioskopu_menadzera_exe(@PathVariable(name = "id") Long id, @PathVariable(name = "id_mng") Long id_mng, Model model) throws Exception {
+
+        Bioskop bioskop = bioskopService.findOne(id);
+        Menadzer menadzer = menadzerService.findOne(id_mng);
+        bioskop.getMenadzeri().add(menadzer);
+        menadzer.getBioskopi().add(bioskop);
+        bioskopService.update(bioskop);
+
         return "redirect:/admin_bioskopi";
     }
 

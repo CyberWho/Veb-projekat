@@ -1,26 +1,32 @@
 package com.example.vebprojekat.entity;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @DiscriminatorValue("Menadzer")
 public class Menadzer extends Korisnik {
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Bioskop bioskop;
+    @ManyToMany(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
+    @NotFound(action = NotFoundAction.IGNORE)
+    private Set<Bioskop> bioskopi = new HashSet<Bioskop>();
 
     public Menadzer(){};
 
-    public Menadzer(Long id, String korisnickoIme, String lozinka, String ime, String prezime, String kontaktTel, String email, Date datum, UlogaEnum.Uloga uloga, Boolean aktivan, Bioskop bioskop) {
+    public Menadzer(Long id, String korisnickoIme, String lozinka, String ime, String prezime, String kontaktTel, String email, Date datum, UlogaEnum.Uloga uloga, Boolean aktivan, Set<Bioskop> bioskopi) {
         super(id, korisnickoIme, lozinka, ime, prezime, kontaktTel, email, datum, uloga, aktivan);
-        this.bioskop = bioskop;
+        this.bioskopi = bioskopi;
     }
 
-    public Bioskop getBioskop() {
-        return bioskop;
+    public Set<Bioskop> getBioskopi() {
+        return bioskopi;
     }
 
-    public void setBioskop(Bioskop bioskop) {
-        this.bioskop = bioskop;
+    public void setBioskopi(Set<Bioskop> bioskopi) {
+        this.bioskopi = bioskopi;
     }
 }
