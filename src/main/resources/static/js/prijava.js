@@ -20,16 +20,17 @@ $(document).on("submit", "form", function(event) {
                 $('#usn_pass').append(msg);
             } else {
 
-
-
                 if(data['uloga'] === "GLEDALAC") {
                     window.location.href = "gledalac_index.html";
                 }
                 else{
-                    if(!data['aktivan']) window.location.href = "neaktivan_profil.html";
-                    if(!data['approved']) window.location.href = "ceka_odobrenje.html";
-
-                    if(data['uloga'] === "MENADZER") {
+                    if(!data['aktivan']) {
+                        window.location.href = "neaktivan_profil.html";
+                    }
+                    else if(!data['approved']) {
+                        window.location.href = "ceka_odobrenje.html";
+                    }
+                    else if(data['uloga'] === "MENADZER") {
                         window.location.href = "menadzer_index.html";
                     }
                     else if(data['uloga'] === "ADMIN") {

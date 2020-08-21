@@ -40,6 +40,8 @@ public class Projekcija implements Serializable {
     private Set<Gledalac> gledaoci = new HashSet<Gledalac>();*/
 
     @OneToMany(mappedBy = "projekcija", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Karta> karte = new HashSet<>();
 
     public Projekcija(){}

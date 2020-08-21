@@ -52,6 +52,7 @@ nav {
     line-height: 70px;
     text-align: center;
     list-style: none;
+    border-radius: 10px;
 }
 
 .menu li a{
@@ -114,7 +115,7 @@ input .btnclss{
 }*/
 
 table {
-    width: 100%;
+    width: 80%;
     text-align: center;
     border-collapse: collapse;
 }
@@ -129,16 +130,12 @@ th, td {
     color: red;
 }
 
-#moviesTable th {
+#moviesTable th, #oneFilmTable th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
     background-color: #dc3545;
     color: black;
-}
-
-#moviesTable td, #moviesTable th {
-
 }
 
 #moviesTable tr:nth-child(even) {
@@ -147,4 +144,36 @@ th, td {
 
 #moviesTable tr:hover {
     background-color: #ddd;
+}
+
+#oneFilmTable tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#oneFilmTable tr:hover{
+    background-color: #ddd;
+}
+
+:root {
+    --background: #E5FFB3;
+    --background-accent: #DBF8A3;
+    --background-accent-2: #BDE66E;
+    --light: #92DE34;
+    --dark: #69BC22;
+    --text: #025600;
+}
+
+button {
+    display: block;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    background-color: var(--light);
+    width: 50%;
+    height: 50%;
+    border-radius: 30px;
+    font-weight: 600;
+    color: var(--text);
+    background-size: 100% 100%;
+    box-shadow: 0 0 0 7px var(--light) inset;
 }

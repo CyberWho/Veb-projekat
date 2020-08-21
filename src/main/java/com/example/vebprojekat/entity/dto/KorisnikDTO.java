@@ -1,6 +1,7 @@
 package com.example.vebprojekat.entity.dto;
 
 import com.example.vebprojekat.entity.Admin;
+import com.example.vebprojekat.entity.Korisnik;
 import com.example.vebprojekat.entity.Menadzer;
 import com.example.vebprojekat.entity.Uloga;
 
@@ -13,11 +14,20 @@ public class KorisnikDTO {
 
     public KorisnikDTO() {}
 
-    public KorisnikDTO(Long id, String ime, String prezime, Uloga uloga) {
+    public KorisnikDTO(Long id, String ime, String prezime, Uloga uloga, String korisnickoime) {
         this.id = id;
         this.ime = ime;
         this.prezime = prezime;
         this.uloga = uloga;
+        this.korisnickoime = korisnickoime;
+    }
+
+    public KorisnikDTO(Korisnik k){
+        this.id = k.getId();
+        this.ime = k.getIme();
+        this.prezime = k.getPrezime();
+        this.uloga = k.getUloga();
+        this.korisnickoime = k.getKorisnickoime();
     }
 
     /*public KorisnikDTO(Menadzer menadzer){
@@ -68,11 +78,11 @@ public class KorisnikDTO {
         this.uloga = uloga;
     }
 
-    public String getKorisnicko_ime() {
+    public String getKorisnickoime() {
         return korisnickoime;
     }
 
-    public void setKorisnicko_ime(String korisnicko_ime) {
-        this.korisnickoime = korisnicko_ime;
+    public void setKorisnickoime(String korisnickoime) {
+        this.korisnickoime = korisnickoime;
     }
 }

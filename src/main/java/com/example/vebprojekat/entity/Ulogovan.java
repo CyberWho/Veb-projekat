@@ -8,11 +8,13 @@ public class Ulogovan {
     static public Uloga uloga;
     static public String korisnicko_ime;
     static public String lozinka;
-    static public List<Korisnik> approvalList;
 
     public Ulogovan(){
+        id = null;
+        uloga = null;
+        korisnicko_ime = null;
+        lozinka = null;
         ulogovan = false;
-        approvalList = null;
     }
 
 
@@ -54,13 +56,5 @@ public class Ulogovan {
 
     public void setLozinka(String lozinka) {
         Ulogovan.lozinka = lozinka;
-    }
-
-    public static List<Korisnik> getApprovalList() {
-        return approvalList;
-    }
-
-    public static void setApprovalList(List<Korisnik> approvalList) {
-        Ulogovan.approvalList = approvalList;
     }
 }

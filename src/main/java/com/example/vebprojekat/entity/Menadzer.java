@@ -2,6 +2,8 @@ package com.example.vebprojekat.entity;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,6 +16,7 @@ public class Menadzer extends Korisnik {
 
     @ManyToMany(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
     @NotFound(action = NotFoundAction.IGNORE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Bioskop> bioskopi = new HashSet<Bioskop>();
 
     public Menadzer(){};

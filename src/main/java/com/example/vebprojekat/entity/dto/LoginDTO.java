@@ -11,7 +11,9 @@ public class LoginDTO {
     private Boolean approved;
     private Boolean aktivan;
 
-    public LoginDTO(){}
+    public LoginDTO(){
+        this.login = false;
+    }
 
     public LoginDTO(String korisnickoime, String lozinka, Uloga uloga, Boolean approved, Boolean aktivan) {
         this.korisnickoime = korisnickoime;

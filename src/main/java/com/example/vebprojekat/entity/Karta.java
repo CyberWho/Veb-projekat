@@ -2,6 +2,8 @@ package com.example.vebprojekat.entity;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -16,10 +18,12 @@ public class Karta {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @NotFound(action = NotFoundAction.IGNORE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Projekcija projekcija;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @NotFound(action = NotFoundAction.IGNORE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Gledalac gledalac;
 
     public Karta(){}

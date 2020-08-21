@@ -49,9 +49,6 @@ public class BioskopServiceImpl implements BioskopService {
 
         //delete(bioskop.getId());
 
-        //Bioskop novi = this.bioskopRepository.save(zaAzurirati);
-
-
         return bioskopRepository.save(zaAzurirati);
     }
 
