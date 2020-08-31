@@ -4,6 +4,7 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,42 +18,35 @@ public class Projekcija implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Film film;
 
     @Column
     private Integer cena;
 
     @Column
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDateTime datumvreme;
 
-    @ManyToOne(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @NotFound(action = NotFoundAction.IGNORE)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Sala sala;
-
-    @ManyToOne(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
-    @NotFound(action = NotFoundAction.IGNORE)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Bioskop bioskop;
 
     /*@ManyToMany(mappedBy = "rezervisane_karte", fetch = FetchType.EAGER , cascade = CascadeType.ALL)
     private Set<Gledalac> gledaoci = new HashSet<Gledalac>();*/
 
-    @OneToMany(mappedBy = "projekcija", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "projekcija", fetch = FetchType.EAGER)
     @NotFound(action = NotFoundAction.IGNORE)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Karta> karte = new HashSet<>();
 
     public Projekcija(){}
 
-    public Projekcija(Long id, Film film, Integer cena, LocalDateTime datumvreme, Sala sala, Bioskop bioskop, Set<Gledalac> gledaoci, Set<Karta> karte) {
+    public Projekcija(Long id, Film film, Integer cena, LocalDateTime datumvreme, Sala sala, Set<Gledalac> gledaoci, Set<Karta> karte) {
         this.id = id;
         this.film = film;
         this.cena = cena;
         this.datumvreme = datumvreme;
         this.sala = sala;
-        this.bioskop = bioskop;
         //this.gledaoci = gledaoci;
         this.karte = karte;
     }
@@ -95,14 +89,6 @@ public class Projekcija implements Serializable {
 
     public void setSala(Sala sala) {
         this.sala = sala;
-    }
-
-    public Bioskop getBioskop() {
-        return bioskop;
-    }
-
-    public void setBioskop(Bioskop bioskopi) {
-        this.bioskop = bioskopi;
     }
 
     /*public Set<Gledalac> getGledaoci() {

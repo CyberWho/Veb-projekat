@@ -18,10 +18,6 @@ h2{
     font-weight: normal;
 }
 
-h3.dodaj{
-    
-}
-
 .container{
     width: 90%;
     margin: 0 auto;
@@ -52,7 +48,7 @@ nav {
     line-height: 70px;
     text-align: center;
     list-style: none;
-    border-radius: 10px;
+    /*border-radius: 10px;*/
 }
 
 .menu li a{
@@ -97,6 +93,10 @@ nav {
     display: inline-block;
 }
 
+.forma input[type=submit] {
+    width: 40%;
+}
+
 input .btnclss{
     background: gray;
     width: 20%;
@@ -114,6 +114,10 @@ input .btnclss{
     border-collapse: collapse;
 }*/
 
+#ocenaForm {
+    width: 100%;
+}
+
 table {
     width: 80%;
     text-align: center;
@@ -130,7 +134,7 @@ th, td {
     color: red;
 }
 
-#moviesTable th, #oneFilmTable th {
+#moviesTable th, #oneFilmTable th, #mngrTable th, #movies th, #searchResTable th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
@@ -138,11 +142,11 @@ th, td {
     color: black;
 }
 
-#moviesTable tr:nth-child(even) {
+#moviesTable tr:nth-child(even), #mngrTable tr:nth-child(even), #movies tr:nth-child(even), #searchResTable tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
-#moviesTable tr:hover {
+#moviesTable tr:hover, #mngrTable tr:hover, #movies tr:hover #searchResTable:hover {
     background-color: #ddd;
 }
 
@@ -150,17 +154,28 @@ th, td {
     background-color: #f2f2f2;
 }
 
-#oneFilmTable tr:hover{
+#oneFilmTable tr:hover {
     background-color: #ddd;
 }
 
-:root {
-    --background: #E5FFB3;
-    --background-accent: #DBF8A3;
-    --background-accent-2: #BDE66E;
-    --light: #92DE34;
-    --dark: #69BC22;
-    --text: #025600;
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #ddd;
+}
+
+table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #dc3545;
+    color: black;
+}
+
+#watchedMovies td {
+    padding: 6px !important;
 }
 
 button {
@@ -168,12 +183,38 @@ button {
     cursor: pointer;
     outline: none;
     border: none;
-    background-color: var(--light);
+    background-color: #D3D3D3;
     width: 50%;
     height: 50%;
     border-radius: 30px;
     font-weight: 600;
-    color: var(--text);
+    color: black;
     background-size: 100% 100%;
-    box-shadow: 0 0 0 7px var(--light) inset;
+    box-shadow: 0 0 0 7px #D3D3D3 inset;
+}
+
+#novi_bioskop {
+    position: relative;
+    background-color: #dc3545;
+    color: black;
+    padding: 0.7em 1.2em;
+    text-decoration: none;
+}
+
+#novi_bioskop:active {
+    background-color: black;
+}
+
+#novi_bioskop:visited {
+    background-color: #ccc;
+}
+
+#nazad, #novaProjekcija, #novaSala {
+    width: 20%;
+    height: 50px;
+}
+
+.btnBack {
+    width: 10%;
+    height: 35px;
 }

@@ -8,13 +8,13 @@ import java.util.*;
 @DiscriminatorValue("Gledalac")
 public class Gledalac extends Korisnik implements Serializable {
 
-    @OneToMany(mappedBy = "gledalac", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "gledalac", fetch = FetchType.EAGER)
     private Set<OdgledanFilm> odgledani_filmovi = new HashSet<>();
 
-    @OneToMany(mappedBy = "gledalac", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "gledalac", fetch = FetchType.EAGER)
     private Set<Karta> rezervisane_karte = new HashSet<>();
 
-    @OneToMany(mappedBy = "gledalac", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "gledalac", fetch = FetchType.EAGER)
     private Set<OcenjenFilm> ocenjeni_filmovi = new HashSet<>();
 
     public Gledalac(){}

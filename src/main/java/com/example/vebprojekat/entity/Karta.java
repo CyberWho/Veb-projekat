@@ -18,12 +18,10 @@ public class Karta {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @NotFound(action = NotFoundAction.IGNORE)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Projekcija projekcija;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @NotFound(action = NotFoundAction.IGNORE)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Gledalac gledalac;
 
     public Karta(){}
@@ -56,6 +54,14 @@ public class Karta {
 
     public void setProjekcija(Projekcija projekcija) {
         this.projekcija = projekcija;
+    }
+
+    public Gledalac getGledalac() {
+        return gledalac;
+    }
+
+    public void setGledalac(Gledalac gledalac) {
+        this.gledalac = gledalac;
     }
 
     /*@Column

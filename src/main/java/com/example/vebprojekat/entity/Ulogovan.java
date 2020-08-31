@@ -12,7 +12,7 @@ public class Ulogovan {
     public Ulogovan(){
         id = null;
         uloga = null;
-        korisnicko_ime = null;
+        korisnicko_ime = "";
         lozinka = null;
         ulogovan = false;
     }

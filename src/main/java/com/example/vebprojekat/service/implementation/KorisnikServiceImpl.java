@@ -2,7 +2,7 @@ package com.example.vebprojekat.service.implementation;
 
 import com.example.vebprojekat.entity.Korisnik;
 import com.example.vebprojekat.repository.*;
-import com.example.vebprojekat.service.KorisnikService;
+import com.example.vebprojekat.service.IF.KorisnikService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,14 +12,13 @@ import java.util.List;
 public class KorisnikServiceImpl implements KorisnikService {
 
     @Autowired
-    private  KorisnikRepository korisnikRepository;
+    private KorisnikRepository korisnikRepository;
 
     @Override
     public Korisnik create(Korisnik korisnik) {
         if(korisnik.getId() != null) return null;
 
-        Korisnik novi = this.korisnikRepository.save(korisnik);
-        return novi;
+        return this.korisnikRepository.save(korisnik);
     }
 
     @Override
@@ -48,7 +47,7 @@ public class KorisnikServiceImpl implements KorisnikService {
         zaAzurirati.setLozinka(korisnik.getLozinka());
         zaAzurirati.setUloga(korisnik.getUloga());
         zaAzurirati.setKontakt_telefon(korisnik.getKontakt_telefon());
-        //zaAzurirati.setApproved(korisnik.getApproved());
+        zaAzurirati.setApproved(korisnik.getApproved());
 
         return korisnikRepository.save(zaAzurirati);
     }
@@ -75,7 +74,6 @@ public class KorisnikServiceImpl implements KorisnikService {
 
     @Override
     public List<Korisnik> findAll(){
-        List<Korisnik> korisnici = this.korisnikRepository.findAll();
-        return korisnici;
+        return this.korisnikRepository.findAll();
     }
 }

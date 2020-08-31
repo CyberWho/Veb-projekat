@@ -58,6 +58,7 @@ $(document).on('click', '.obrisi', function (){
 $(document).on('click', '.izmeni', function (){
     $('#movies').hide();
     $('#naslov').hide();
+    //$('#novi_bioskop').hide();
     //alert("ID pre splita: " + this.id);
     //alert("ID posle splita: " + this.id.split(" ")[1]);
     var id = parseInt(this.id.split(" ")[1]);
@@ -81,12 +82,13 @@ $(document).on('click', '.izmeni', function (){
 
         },
         error: function (){
-            alert("Greška! (admin_bioskopi/izmeni)")
+            alert("Greška! (admin_bioskopi/izmeni_priprema)")
         }
     })
 });
 
-$(document).on('submit', 'form', function (){
+$(document).on('submit', 'form', function (event){
+    event.preventDefault();
     var naziv = $('#naziv').val();
     var adresa = $('#adresa').val();
     var br_telefona = $('#br_telefona').val();
@@ -115,7 +117,6 @@ $(document).on('submit', 'form', function (){
 
 $(document).on('click', '.dodajMngr', function (){
     var id = parseInt(this.id.split(" ")[1]);
-    alert("BIOSKOP ID: " + id);
     $('#movies').hide();
     $('#naslov').hide();
     $.ajax({
@@ -132,7 +133,6 @@ $(document).on('click', '.dodajMngr', function (){
             $('#moviesTable').append(row);
             var row1 = "<tr>";
             for (var i = 0; i < data.length; i++) {
-                alert(data[i]['id']);
                 row1 += "<td>" + data[i]['ime'] + "</td>";
                 row1 += "<td>" + data[i]['prezime'] + "</td>";
                 row1 += "<td>" + data[i]['korisnickoime'] + "</td>";

@@ -14,10 +14,9 @@ import java.util.Set;
 @DiscriminatorValue("Menadzer")
 public class Menadzer extends Korisnik {
 
-    @ManyToMany(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @NotFound(action = NotFoundAction.IGNORE)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Set<Bioskop> bioskopi = new HashSet<Bioskop>();
+    private Set<Bioskop> bioskopi = new HashSet<>();
 
     public Menadzer(){};
 

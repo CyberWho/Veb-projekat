@@ -4,7 +4,7 @@ import com.example.vebprojekat.entity.Korisnik;
 import com.example.vebprojekat.entity.Menadzer;
 import com.example.vebprojekat.entity.Uloga;
 import com.example.vebprojekat.repository.MenadzerRepository;
-import com.example.vebprojekat.service.MenadzerService;
+import com.example.vebprojekat.service.IF.MenadzerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +45,8 @@ public class MenadzerServiceImpl implements MenadzerService {
         Menadzer zaAzurirati = menadzerRepository.getOne(menadzer.getId());
         if(zaAzurirati == null) throw new Exception("Traženi menadžer ne postoji!");
 
+        System.out.println("Broj bioskopa za koje je prosledjeni menadzer zaduzen: " + menadzer.getBioskopi().size());
+
         zaAzurirati.setIme(menadzer.getIme());
         zaAzurirati.setPrezime(menadzer.getPrezime());
         zaAzurirati.setAktivan(menadzer.getAktivan());
@@ -56,10 +58,7 @@ public class MenadzerServiceImpl implements MenadzerService {
         zaAzurirati.setKontakt_telefon(menadzer.getKontakt_telefon());
         zaAzurirati.setBioskopi(menadzer.getBioskopi());
 
-        //Menadzer novi = this.menadzerRepository.save(zaAzurirati);
-
-
-        return zaAzurirati;
+        return this.menadzerRepository.save(zaAzurirati);
     }
 
     @Override

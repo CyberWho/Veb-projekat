@@ -5,9 +5,9 @@ import com.example.vebprojekat.entity.Korisnik;
 import com.example.vebprojekat.entity.Menadzer;
 import com.example.vebprojekat.entity.Uloga;
 import com.example.vebprojekat.repository.AdminRepository;
-import com.example.vebprojekat.service.AdminService;
-import com.example.vebprojekat.service.KorisnikService;
-import com.example.vebprojekat.service.MenadzerService;
+import com.example.vebprojekat.service.IF.AdminService;
+import com.example.vebprojekat.service.IF.KorisnikService;
+import com.example.vebprojekat.service.IF.MenadzerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

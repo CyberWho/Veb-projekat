@@ -4,7 +4,7 @@ import com.example.vebprojekat.entity.Gledalac;
 import com.example.vebprojekat.entity.Korisnik;
 import com.example.vebprojekat.entity.Uloga;
 import com.example.vebprojekat.repository.GledalacRepository;
-import com.example.vebprojekat.service.GledalacService;
+import com.example.vebprojekat.service.IF.GledalacService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,8 +58,7 @@ public class GledalacServiceImpl implements GledalacService {
         zaAzurirati.setOdgledani_filmovi(gledalac.getOdgledani_filmovi());
         zaAzurirati.setRezervisane_karte(gledalac.getRezervisane_karte());
 
-        Gledalac novi = this.gledalacRepository.save(zaAzurirati);
-        return novi;
+        return this.gledalacRepository.save(zaAzurirati);
     }
 
     @Override

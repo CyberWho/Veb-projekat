@@ -1,7 +1,12 @@
 package com.example.vebprojekat.entity;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -25,26 +30,34 @@ public class Film implements Serializable {
     @Column
     private Double prosecnaocena;
 
-    /*
-    @ManyToMany
-    @JoinTable(
-            name = "Filmovi i terminske liste",
-            joinColumns = @JoinColumn(name = "film_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "projekcija_id", referencedColumnName = "id")
-    )
-    private Set<Projekcija> terminske_liste = new HashSet<Projekcija>();
-     */
+    @Column
+    private Integer brojocenjivaca;
+
+    @Column
+    private Integer zbirocena;
+
+    @OneToMany(mappedBy = "film", fetch = FetchType.EAGER)
+    private Set<OdgledanFilm> odgledanifilmovi;
+
+
+    @OneToMany(mappedBy = "film", fetch = FetchType.EAGER)
+    @NotFound(action = NotFoundAction.IGNORE)
+    private Set<Projekcija> terminske_liste = new HashSet<>();
+
 
     public Film(){}
 
-    public Film(Long id, String naziv, String opis, String zanr, Integer trajanje, Double prosecnaocena, Set<Projekcija> terminske_liste) {
+    public Film(Long id, String naziv, String opis, String zanr, Integer trajanje, Double prosecnaocena, Integer brojocenjivaca, Integer zbirocena, Set<OdgledanFilm> odgledanifilmovi, Set<Projekcija> terminske_liste) {
         this.id = id;
         this.naziv = naziv;
         this.opis = opis;
         this.zanr = zanr;
         this.trajanje = trajanje;
         this.prosecnaocena = prosecnaocena;
-        //this.terminske_liste = terminske_liste;
+        this.brojocenjivaca = brojocenjivaca;
+        this.zbirocena = zbirocena;
+        this.odgledanifilmovi = odgledanifilmovi;
+        this.terminske_liste = terminske_liste;
     }
 
     public Long getId() {
@@ -95,7 +108,30 @@ public class Film implements Serializable {
         this.prosecnaocena = prosecna_ocena;
     }
 
-    /*
+    public Integer getBrojocenjivaca() {
+        return brojocenjivaca;
+    }
+
+    public void setBrojocenjivaca(Integer brojocenjivaca) {
+        this.brojocenjivaca = brojocenjivaca;
+    }
+
+    public Integer getZbirocena() {
+        return zbirocena;
+    }
+
+    public void setZbirocena(Integer zbirocena) {
+        this.zbirocena = zbirocena;
+    }
+
+    public Set<OdgledanFilm> getOdgledanifilmovi() {
+        return odgledanifilmovi;
+    }
+
+    public void setOdgledanifilmovi(Set<OdgledanFilm> odgledanifilmovi) {
+        this.odgledanifilmovi = odgledanifilmovi;
+    }
+
     public Set<Projekcija> getTerminske_liste() {
         return terminske_liste;
     }
@@ -103,5 +139,17 @@ public class Film implements Serializable {
     public void setTerminske_liste(Set<Projekcija> terminske_liste) {
         this.terminske_liste = terminske_liste;
     }
-    */
+
+    public void ocenjivaciIncrement(){
+        this.brojocenjivaca++;
+    }
+
+    public void noviZbir(Integer dodatak){
+        this.zbirocena += dodatak;
+    }
+
+    public void racunajProsek(){
+        DecimalFormat numberFormat = new DecimalFormat("#.##");
+        this.prosecnaocena = Double.parseDouble(numberFormat.format(((double)this.zbirocena) / this.brojocenjivaca));
+    }
 }

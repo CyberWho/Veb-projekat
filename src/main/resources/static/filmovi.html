@@ -27,42 +27,99 @@
 <h1 id="film"><br>Filmovi u ponudi<br><br></h1>
 <br><br>
 <center>
-    <div id="movies">
+    <div id="pretragaFilmovaDiv">
+        <form id="pretragaFilmova" class="forma">
+            <label for="naziv">Naziv: </label>
+            <input type="text" id="naziv" name="naziv">
+            <label for="opis">Opis: </label>
+            <input type="text" id="opis" name="opis">
+            <label for="zanr">Žanr: </label>
+            <input type="text" id="zanr" name="zanr">
+            <label for="cena">Najveća cena: </label>
+            <input type="number" id="cena" name="cena">
+            <label for="prosecnaocena">Najmanja prosečna ocena: </label>
+            <input type="number" id="prosecnaocena" step="0.01" name="prosecnaocena">
+            <label for="datumvreme_format">Vreme projekcije: </label>
+            <input style="text-align: center" id="datumvreme_format" type="datetime-local" name="datumvreme_format">
+            <input type="submit" value="Pretraži">
+        </form>
+    </div>
+    <br><br>
+
+    <div id="moviesDiv">
         <table id="moviesTable">
-            <tr>
-                <th>Naziv</th>
-                <th>Opis</th>
-                <th>Žanr</th>
-                <th>Trajanje</th>
-                <th>Prosečna ocena</th>
-                <th></th>
-            </tr>
+            <thead>
+
+            </thead>
+            <tbody>
+
+            </tbody>
         </table>
     </div>
 
-    <div id="oneFilm" hidden>
-        <!--<h2 id="naziv"></h2>
-        <h2 id="zanr"></h2>
-        <h2 id="trajanje"></h2>
-        <h2 id="prosecaocena"></h2>-->
+    <div id="oneFilmDiv" hidden>
         <table id="oneFilmTable">
-           <!-- <tr>
-                <th>Naziv</th>
-                <th>Opis</th>
-                <th>Žanr</th>
-                <th>Trajanje</th>
-                <th>Prosečna ocena</th>
-                <th>Cena</th>
-                <th>Datum i vreme</th>
-                <th>Bioskop</th>
-                <th>Broj slobodnih karata</th>
-            </tr>-->
+            <thead>
+                <tr>
+                    <th>Naziv</th>
+                    <th>Trajanje</th>
+                    <th>Prosečna ocena</th>
+                    <th>Cena</th>
+                    <th>Datum i vreme</th>
+                    <th>Sala</th>
+                    <th>Broj preostalih mesta</th>
+                    <th>Bioskop</th>
+                </tr>
+            </thead>
+            <tbody >
+
+            </tbody>
         </table>
         <br><br>
+        <button id="nazadFilm" class="btnBack">Nazad</button>
+    </div>
+
+    <div id="searchResDiv" hidden>
+        <table id="searchResTable">
+            <thead>
+                <tr>
+                    <th>Naziv</th>
+                    <th>Trajanje</th>
+                    <th>Prosečna ocena</th>
+                    <th>Cena</th>
+                    <th>Datum i vreme</th>
+                    <th>Sala</th>
+                    <th>Broj preostalih mesta</th>
+                    <th>Bioskop</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+
+        <br><br>
+
         <button class="btnBack">Nazad</button>
     </div>
+
+    <br><br>
+
+    <div id="sortirajDiv">
+        <form class="forma" id="sortirajForma">
+            <label for="sortSelect">Sortiraj:</label>
+            <select name="sortSelect" id="sortSelect">
+                <option value="cena_opadajuce">Cena opadajuće</option>
+                <option value="cena_rastuce">Cena rastuće</option>
+            </select>
+            <input type="submit" value="Sortiraj">
+        </form>
+    </div>
+
+
 </center>
 
+<br><br>
 
 
 </body>

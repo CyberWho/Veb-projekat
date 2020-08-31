@@ -1,11 +1,10 @@
 function provera() {
 
-    $.ajax({
+    /*$.ajax({
         type: "GET",
         url: "http://127.0.0.1:8080/index_provera",
         dataType: "json",
         success: function (data) {
-            alert("usao u succ");
             //alert("Uloga index: " + data['uloga']);
             if(data['ulogovan']) {
                 if(data['uloga'] === "GLEDALAC") window.location.href = "gledalac_index.html";
@@ -16,5 +15,5 @@ function provera() {
         error: function (){
             //alert("Greška! (index.js)");
         }
-    });
+    });*/
 }

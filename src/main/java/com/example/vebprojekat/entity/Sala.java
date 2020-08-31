@@ -24,8 +24,8 @@ public class Sala implements Serializable {
     @NotFound(action = NotFoundAction.IGNORE)
     private Bioskop bioskop;
 
-    @OneToMany(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
-    private Set<Projekcija> lista_projekcija = new HashSet<Projekcija>();
+    @OneToMany(mappedBy = "sala", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Projekcija> lista_projekcija = new HashSet<>();
 
     public Sala(){}
 

@@ -33,20 +33,22 @@
     <div id="dodaj_bioskop_form">
         <form id="dodaj_bioskop" class="forma">
             <label for="naziv">Naziv:</label>
-            <input id="naziv" type="text" placeholder="Unesite naziv" /><br>
+            <input id="naziv" type="text" placeholder="Unesite naziv" required/><br>
 
             <label for="adresa">Adresa:</label>
-            <input id="adresa" type="text" placeholder="Unesite adresu" /><br>
+            <input id="adresa" type="text" placeholder="Unesite adresu" required/><br>
 
             <label for="br_telefona">Broj telefona:</label>
-            <input id="br_telefona" type="text" placeholder="Unesite broj telefona" />
+            <input id="br_telefona" type="text" placeholder="Unesite broj telefona" required/>
 
             <label for="email">Email:</label>
-            <input id="email" type="text" placeholder="Unesite email:"/>
+            <input id="email" type="text" placeholder="Unesite email:" required/>
 
             <label for="menadzer">Izaberite inicijalnog menadžera</label>
             <select name="menadzer" id="menadzer">
             </select>
+
+            <input type="submit" value="Dodaj bioskop"/>
         </form>
 
     </div>

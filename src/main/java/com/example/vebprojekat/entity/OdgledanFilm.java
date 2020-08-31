@@ -2,6 +2,7 @@ package com.example.vebprojekat.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 public class OdgledanFilm implements Serializable {
@@ -9,22 +10,27 @@ public class OdgledanFilm implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Film film;
 
-    @ManyToOne(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER )
     private Gledalac gledalac;
 
-    @OneToOne(mappedBy = "odgledan_film" , fetch = FetchType.EAGER , cascade = CascadeType.ALL)
-    private OcenjenFilm ocenjen_film;
+    @Column
+    private Boolean ocenjen;
+
+    @Column
+    private Integer ocena;
 
     public OdgledanFilm(){}
 
-    public OdgledanFilm(Long id, Film film, Gledalac gledalac, OcenjenFilm ocenjen_film) {
+    public OdgledanFilm(Long id, Film film, Gledalac gledalac, Boolean ocenjen, Integer ocena) {
         this.id = id;
         this.film = film;
         this.gledalac = gledalac;
-        this.ocenjen_film = ocenjen_film;
+        this.ocenjen = ocenjen;
+        this.ocena = ocena;
+        //this.ocenjen_film = ocenjen_film;
     }
 
     public Long getId() {
@@ -51,11 +57,27 @@ public class OdgledanFilm implements Serializable {
         this.gledalac = gledalac;
     }
 
-    public OcenjenFilm getOcenjen_film() {
+    public Boolean getOcenjen() {
+        return ocenjen;
+    }
+
+    public void setOcenjen(Boolean ocenjen) {
+        this.ocenjen = ocenjen;
+    }
+
+    public Integer getOcena() {
+        return ocena;
+    }
+
+    public void setOcena(Integer ocena) {
+        this.ocena = ocena;
+    }
+    /*public OcenjenFilm getOcenjen_film() {
         return ocenjen_film;
     }
 
     public void setOcenjen_film(OcenjenFilm ocenjen_film) {
         this.ocenjen_film = ocenjen_film;
-    }
+    }*/
+
 }

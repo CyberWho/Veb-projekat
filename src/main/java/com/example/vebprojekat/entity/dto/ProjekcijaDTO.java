@@ -2,12 +2,14 @@ package com.example.vebprojekat.entity.dto;
 
 import com.example.vebprojekat.entity.Karta;
 import com.example.vebprojekat.entity.Projekcija;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class ProjekcijaDTO implements Serializable {
+    private Long id;
     private String naziv;
     private String opis;
     private String zanr;
@@ -16,12 +18,15 @@ public class ProjekcijaDTO implements Serializable {
     private Integer cena;
     private String datumvreme;
     private String sala;
-    private String bioskop;
     private Integer broj_preostalih_mesta;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDateTime datumvreme_format;
+    private String naziv_bioskopa;
 
     public ProjekcijaDTO(){}
 
-    public ProjekcijaDTO(String naziv, String opis, String zanr, Integer trajanje, Double prosecnaocena, Integer cena, String datumvreme, String sala, String bioskop, Integer broj_preostalih_mesta) {
+    public ProjekcijaDTO(Long id, String naziv, String opis, String zanr, Integer trajanje, Double prosecnaocena, Integer cena, String datumvreme, String sala, Integer broj_preostalih_mesta, LocalDateTime datumvreme_format, String naziv_bioskopa) {
+        this.id = id;
         this.naziv = naziv;
         this.opis = opis;
         this.zanr = zanr;
@@ -30,11 +35,13 @@ public class ProjekcijaDTO implements Serializable {
         this.cena = cena;
         this.datumvreme = datumvreme;
         this.sala = sala;
-        this.bioskop = bioskop;
         this.broj_preostalih_mesta = broj_preostalih_mesta;
+        this.datumvreme_format = datumvreme_format;
+        this.naziv_bioskopa = naziv_bioskopa;
     }
 
     public ProjekcijaDTO(Projekcija p){
+        this.id = p.getId();
         this.naziv = p.getFilm().getNaziv();
         this.opis = p.getFilm().getOpis();
         this.zanr = p.getFilm().getZanr();
@@ -49,7 +56,6 @@ public class ProjekcijaDTO implements Serializable {
             this.datumvreme += " ";
         }
         this.sala = p.getSala().getNaziv();
-        this.bioskop = p.getBioskop().getNaziv();
 
         Integer broj_rezervisanih_mesta = 0;
         for(Karta k: p.getKarte()){
@@ -57,8 +63,15 @@ public class ProjekcijaDTO implements Serializable {
         }
 
         this.broj_preostalih_mesta = p.getSala().getKapacitet() - broj_rezervisanih_mesta;
-        /*System.out.println("Sala: " + this.sala);
-        System.out.println("Kapacitet sale: " + p.getSala().getKapacitet());*/
+        this.naziv_bioskopa = p.getSala().getBioskop().getNaziv();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNaziv() {
@@ -125,19 +138,27 @@ public class ProjekcijaDTO implements Serializable {
         this.sala = sala;
     }
 
-    public String getBioskop() {
-        return bioskop;
-    }
-
-    public void setBioskop(String bioskop) {
-        this.bioskop = bioskop;
-    }
-
     public Integer getBroj_preostalih_mesta() {
         return broj_preostalih_mesta;
     }
 
     public void setBroj_preostalih_mesta(Integer broj_preostalih_mesta) {
         this.broj_preostalih_mesta = broj_preostalih_mesta;
+    }
+
+    public LocalDateTime getDatumvreme_format() {
+        return datumvreme_format;
+    }
+
+    public void setDatumvreme_format(LocalDateTime datumvreme_format) {
+        this.datumvreme_format = datumvreme_format;
+    }
+
+    public String getNaziv_bioskopa() {
+        return naziv_bioskopa;
+    }
+
+    public void setNaziv_bioskopa(String naziv_bioskopa) {
+        this.naziv_bioskopa = naziv_bioskopa;
     }
 }

@@ -2,7 +2,7 @@ package com.example.vebprojekat.service.implementation;
 
 import com.example.vebprojekat.entity.Film;
 import com.example.vebprojekat.repository.FilmRepository;
-import com.example.vebprojekat.service.FilmService;
+import com.example.vebprojekat.service.IF.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,13 +34,15 @@ public class FilmServiceImpl implements FilmService {
 
         zaAzurirati.setNaziv(film.getNaziv());
         zaAzurirati.setOpis(film.getOpis());
-        zaAzurirati.setProsecnaocena(film.getProsecnaocena());
-        //zaAzurirati.setTerminske_liste(film.getTerminske_liste());
-        zaAzurirati.setTrajanje(film.getTrajanje());
         zaAzurirati.setZanr(film.getZanr());
+        zaAzurirati.setTrajanje(film.getTrajanje());
+        zaAzurirati.setProsecnaocena(film.getProsecnaocena());
+        zaAzurirati.setBrojocenjivaca(film.getBrojocenjivaca());
+        zaAzurirati.setZbirocena(film.getZbirocena());
+        zaAzurirati.setOdgledanifilmovi(film.getOdgledanifilmovi());
+        zaAzurirati.setTerminske_liste(film.getTerminske_liste());
 
-        Film novi = this.filmRepository.save(zaAzurirati);
-        return novi;
+        return this.filmRepository.save(zaAzurirati);
     }
 
     @Override
@@ -52,6 +54,11 @@ public class FilmServiceImpl implements FilmService {
     public List<Film> findAll(){
         List<Film> filmovi = this.filmRepository.findAll();
         return filmovi;
+    }
+
+    @Override
+    public Film findByNaziv(String naziv){
+        return filmRepository.findByNaziv(naziv);
     }
 
 }

@@ -1,15 +1,13 @@
 package com.example.vebprojekat.service.implementation;
 
 import com.example.vebprojekat.entity.Bioskop;
-import com.example.vebprojekat.entity.Menadzer;
 import com.example.vebprojekat.repository.BioskopRepository;
-import com.example.vebprojekat.service.BioskopService;
-import com.example.vebprojekat.service.MenadzerService;
+import com.example.vebprojekat.service.IF.BioskopService;
+import com.example.vebprojekat.service.IF.MenadzerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class BioskopServiceImpl implements BioskopService {
@@ -24,8 +22,7 @@ public class BioskopServiceImpl implements BioskopService {
     public Bioskop create(Bioskop bioskop) throws Exception{
         if(bioskop.getId() != null) throw new Exception("ID mora biti null!");
 
-        Bioskop novi = this.bioskopRepository.save(bioskop);
-        return novi;
+        return this.bioskopRepository.save(bioskop);
     }
 
     @Override
@@ -36,7 +33,6 @@ public class BioskopServiceImpl implements BioskopService {
 
     @Override
     public Bioskop update(Bioskop bioskop) throws Exception{
-        //System.out.println("Br mngra u prosledjenom bioskopu: " + bioskop.getMenadzeri().size());
         Bioskop zaAzurirati = this.bioskopRepository.getOne(bioskop.getId());
         if(zaAzurirati == null) throw new Exception("Traženi bioskop ne postoji!");
 

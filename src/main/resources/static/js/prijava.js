@@ -18,29 +18,28 @@ $(document).on("submit", "form", function(event) {
                 var msg = "<p>Pogrešno korisničko ime ili lozinka.</p>";
                 $('#usn_pass').text(" ");
                 $('#usn_pass').append(msg);
+                $('#lozinka').text("");
             } else {
-
-                if(data['uloga'] === "GLEDALAC") {
+                if(!data['aktivan']) {
+                    window.location.href = "neaktivan_profil.html";
+                }
+                else if(!data['approved']) {
+                    window.location.href = "ceka_odobrenje.html";
+                }
+                else if(data['uloga'] === "GLEDALAC"){
                     window.location.href = "gledalac_index.html";
                 }
-                else{
-                    if(!data['aktivan']) {
-                        window.location.href = "neaktivan_profil.html";
-                    }
-                    else if(!data['approved']) {
-                        window.location.href = "ceka_odobrenje.html";
-                    }
-                    else if(data['uloga'] === "MENADZER") {
-                        window.location.href = "menadzer_index.html";
-                    }
-                    else if(data['uloga'] === "ADMIN") {
-                        window.location.href = "admin_index.html";
-                    }
-                    else {
-                        alert("Greška u prijavi!");
-                        window.location.href = "greska_u_prijavi.html";
-                    }
+                else if(data['uloga'] === "MENADZER") {
+                    window.location.href = "menadzer_index.html";
                 }
+                else if(data['uloga'] === "ADMIN") {
+                    window.location.href = "admin_index.html";
+                }
+                else {
+                    alert("Greška u prijavi!");
+                    window.location.href = "greska_u_prijavi.html";
+                }
+
             }
 
         },

@@ -1,5 +1,6 @@
 package com.example.vebprojekat.entity;
 
+import com.example.vebprojekat.entity.dto.BioskopDTO;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
@@ -27,9 +28,8 @@ public class Bioskop implements Serializable {
     @Column
     private String email;
 
-    @ManyToMany(mappedBy = "bioskopi" , fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "bioskopi" , fetch = FetchType.EAGER)
     @NotFound(action = NotFoundAction.IGNORE)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Menadzer> menadzeri = new HashSet<Menadzer>();
 
     @OneToMany(mappedBy = "bioskop", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -57,6 +57,14 @@ public class Bioskop implements Serializable {
         this.menadzeri = menadzeri;
         this.sale = sale;
         //this.lista_projekcija = lista_projekcija;
+    }
+
+    public Bioskop(BioskopDTO b){
+        this.id = null;
+        this.naziv = b.getNaziv();
+        this.adresa = b.getAdresa();
+        this.br_telefona = b.getBr_telefona();
+        this.email = b.getEmail();
     }
 
     public Long getId() {

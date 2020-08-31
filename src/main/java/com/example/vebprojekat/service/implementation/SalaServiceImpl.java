@@ -2,7 +2,7 @@ package com.example.vebprojekat.service.implementation;
 
 import com.example.vebprojekat.entity.Sala;
 import com.example.vebprojekat.repository.SalaRepository;
-import com.example.vebprojekat.service.SalaService;
+import com.example.vebprojekat.service.IF.SalaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +38,7 @@ public class SalaServiceImpl implements SalaService {
         zaAzurirati.setLista_projekcija(sala.getLista_projekcija());
 
         //delete(sala.getId());
-        //Sala novi = this.salaRepository.save(zaAzurirati);
+        Sala novi = this.salaRepository.save(zaAzurirati);
 
         return zaAzurirati;
     }

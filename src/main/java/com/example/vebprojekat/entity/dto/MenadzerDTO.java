@@ -7,6 +7,8 @@ public class MenadzerDTO {
     private String korisnickoime;
     private String ime;
     private String prezime;
+    private Integer br_bioskopa;
+    private Boolean obrisan;
 
     public MenadzerDTO(){}
 
@@ -15,6 +17,8 @@ public class MenadzerDTO {
         this.korisnickoime = m.getKorisnickoime();
         this.ime = m.getIme();
         this.prezime = m.getPrezime();
+        this.br_bioskopa = m.getBioskopi().size();
+        this.obrisan = false;
     }
 
     public Long getId() {
@@ -47,5 +51,21 @@ public class MenadzerDTO {
 
     public void setPrezime(String prezime) {
         this.prezime = prezime;
+    }
+
+    public Integer getBr_bioskopa() {
+        return br_bioskopa;
+    }
+
+    public void setBr_bioskopa(Integer br_bioskopa) {
+        this.br_bioskopa = br_bioskopa;
+    }
+
+    public Boolean getObrisan() {
+        return obrisan;
+    }
+
+    public void setObrisan(Boolean obrisan) {
+        this.obrisan = obrisan;
     }
 }

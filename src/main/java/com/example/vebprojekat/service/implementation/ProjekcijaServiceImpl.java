@@ -2,7 +2,7 @@ package com.example.vebprojekat.service.implementation;
 
 import com.example.vebprojekat.entity.Projekcija;
 import com.example.vebprojekat.repository.ProjekcijaRepository;
-import com.example.vebprojekat.service.ProjekcijaService;
+import com.example.vebprojekat.service.IF.ProjekcijaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +33,6 @@ public class ProjekcijaServiceImpl implements ProjekcijaService {
         Projekcija zaAzurirati = projekcijaRepository.getOne(projekcija.getId());
         if(zaAzurirati==null) throw new Exception("Došlo je do greške prilikom prenosa");
 
-        zaAzurirati.setBioskop(projekcija.getBioskop());
         zaAzurirati.setCena(projekcija.getCena());
         zaAzurirati.setDatumvreme(projekcija.getDatumvreme());
         zaAzurirati.setFilm(projekcija.getFilm());
@@ -41,12 +40,13 @@ public class ProjekcijaServiceImpl implements ProjekcijaService {
         zaAzurirati.setKarte(projekcija.getKarte());
         //zaAzurirati.setGledaoci(projekcija.getGledaoci());
 
+        save(zaAzurirati);
 
         return zaAzurirati;
     }
 
-    public @Override
-    void Delete(Long id){
+    @Override
+     public void delete(Long id){
         projekcijaRepository.deleteById(id);
     }
 
@@ -62,7 +62,16 @@ public class ProjekcijaServiceImpl implements ProjekcijaService {
 
     @Override
     public List<Projekcija> findByDatumvreme(LocalDateTime datum_vreme) {
-
         return projekcijaRepository.findByDatumvreme(datum_vreme);
     }
+
+    @Override
+    public List<Projekcija> findByOrderByCenaAsc(){
+        return projekcijaRepository.findByOrderByCenaAsc();
+    }
+
+    public List<Projekcija> findByOrderByCenaDesc(){
+        return projekcijaRepository.findByOrderByCenaDesc();
+    }
+
 }

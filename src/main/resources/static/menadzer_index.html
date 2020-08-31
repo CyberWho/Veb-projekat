@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <title>Novosadski bioskopi</title>
-    <link rel="stylesheet" href="/css/style.css"/>
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/jquery.validate.min.js"></script>
-    <script src="/js/menadzer_index.js"></script>
+    <link rel="stylesheet" href="css/style.css"/>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+    <script src="js/menadzer_index.js"></script>
     <meta charset="utf-8"/>
 </head>
 <body>
@@ -17,24 +17,89 @@
         <div class="navbar">
             <ul class="menu">
                 <li><a type="button" href="menadzer_index.html">Početna</a></li>
-                <li><a type="button" href="menadzer_bioskopi_filmovi.html">Filmovi</a></li>
-                <li><a type="button" href="prijava.html">Prijava</a></li>
-                <li><a type="button" href="registracija.html">Registracija</a></li>
+                <li><a type="button" onclick="odjava()">Odjava</a></li>
             </ul>
         </div>
     </div>
 </nav>
 
 
-<h1 id="film"><br>Novosadski bioskopi<br><br></h1>
-<h2>Moj profil<br><br><br></h2>
-<center>
-    <div id="menadzer">
-        <table id="profil">
 
-        </table>
+<h1 id="film"><br>Novosadski bioskopi<br><br></h1>
+<center>
+    <h2 id="naslov">Bioskopi za koje ste zaduženi:<br><br><br></h2>
+    <table id="movies">
+
+    </table>
+    <br><br>
+    <table id="moviesTable">
+
+    </table>
+
+    <!--<div id="novaProjekcija">
+
+    </div>-->
+    <div id="novaSala">
+
     </div>
+
+    <div id="nazad" hidden>
+        <br><button type="button" class="nazad">Nazad</button>
+    </div>
+
+    <div id="forma" hidden>
+        <form class="forma" id="izmenaSale">
+            <label for="naziv">Naziv: </label>
+            <input id="naziv" name="naziv" placeholder="Unesite novi naziv" />
+
+            <label for="kapacitet">Kapacitet: </label>
+            <input id="kapacitet" name="kapacitet" placeholder="Unesite novi kapacitet" />
+
+
+        </form>
+    </div>
+
+    <div id="novaSalaDiv" hidden>
+        <form class="forma" id="formaNovaSala">
+            <label for="nazivSala">Naziv: </label>
+            <input id="nazivSala" name="nazivSala" placeholder="Unesite naziv" />
+
+            <label for="kapacitetSala">Kapacitet: </label>
+            <input id="kapacitetSala" name="kapacitetSala" placeholder="Unesite kapacitet" />
+
+
+        </form>
+    </div>
+
+    <div id="novaProjekcijaDiv" hidden>
+        <form class="forma" id="formaNovaProjekcija">
+            <label for="filmNaziv">Naziv: </label>
+            <input id="filmNaziv" name="filmNaziv" placeholder="Unesite naziv filma" required/>
+
+            <label for="cena">Cena: </label>
+            <input id="cena" name="cena" placeholder="Unesite cenu" required/>
+
+            <label for="datumvreme_format">Datum i vreme: </label>
+            <input type="datetime-local" id="datumvreme_format" name="datumvreme_format" required/>
+
+
+        </form>
+    </div>
+
+    <div id="izmenaProjekcijeDiv" hidden>
+        <form class="forma" id="formaIzmenaProjekcije">
+            <label for="novaCena">Cena: </label>
+            <input id="novaCena" name="novaCena" placeholder="Unesite novu cenu" />
+
+            <label for="noviDatumvreme_format">Datum i vreme: </label>
+            <input type="datetime-local" id="noviDatumvreme_format" name="novDatumvreme_format" />
+
+
+        </form>
+    </div>
+
 </center>
+
 
 </body>
 </html>

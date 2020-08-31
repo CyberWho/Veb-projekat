@@ -2,9 +2,8 @@ package com.example.vebprojekat.controller;
 
 import com.example.vebprojekat.entity.*;
 import com.example.vebprojekat.entity.dto.*;
-import com.example.vebprojekat.service.*;
+import com.example.vebprojekat.service.IF.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.print.attribute.standard.Media;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -26,6 +24,9 @@ public class KorisnikKontroler {
 
     @Autowired
     private GledalacService gledalacService;
+
+    @Autowired
+    private KartaService kartaService;
 
     @Autowired
     private MenadzerService menadzerService;
@@ -42,18 +43,21 @@ public class KorisnikKontroler {
     @Autowired
     private BioskopService bioskopService;
 
-    public Ulogovan ulogovan;
+    @Autowired
+    private SalaService salaService;
+
+    public static Ulogovan ulogovan;
 
     private Boolean program_poceo=false;
 
+    public static List<Projekcija> moviesForSort = new ArrayList<>();
+
     @GetMapping("/")
-    //public ResponseEntity<Ulogovan> welcome() throws Exception {
     public String welcome() throws Exception {
-        System.out.println("Program počinje");
         if(!program_poceo){
+            ulogovan = new Ulogovan();
             System.out.println("Program počeo!");
             program_poceo = true;
-            ulogovan = new Ulogovan();
             Admin superAdmin = adminService.findByUsername("SuperAdmin");
             for(Korisnik korisnik: korisnikService.findAll()){
                 if(!korisnik.getApproved()) {
@@ -78,28 +82,51 @@ public class KorisnikKontroler {
     }
 
     @GetMapping(value = "/index_provera", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Ulogovan> index_provera(){
-        System.out.println("Ulogovan uloga ('/index_provera' mapping): " + ulogovan.getUloga());
-        System.out.println("Ulogovan korisnicko ime ('/index_provera' mapping): " + ulogovan.getKorisnicko_ime());
+    public ResponseEntity<Ulogovan> index_provera() throws Exception {
+        pocetak();
+        if(ulogovan == null){
+            new Ulogovan();
+        } else {
+            System.out.println("Ulogovan uloga ('/index_provera' mapping): " + ulogovan.getUloga());
+            System.out.println("Ulogovan korisnicko ime ('/index_provera' mapping): " + ulogovan.getKorisnicko_ime());
+        }
 
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(ulogovan, HttpStatus.OK);
     }
 
-    //@GetMapping("/gledalac_index")
 
+    // GLEDALAC
+
+
+    @GetMapping(value = "/gledalac_index", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Object>> gledalac_index() throws Exception {
+        pocetak();
+
+        Gledalac gledalac = gledalacService.findOne(ulogovan.getId());
+
+        List<Object> retVal = new ArrayList<>();
+        retVal.add(new GledalacDTO(gledalac));
+
+        for(OdgledanFilm of: gledalac.getOdgledani_filmovi()){
+            retVal.add(new OdgledanFilmDTO(of));
+        }
+
+        return new ResponseEntity<>(retVal, HttpStatus.OK);
+    }
 
 
     // ADMIN
 
 
     @GetMapping(value = "/admin_index", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<KorisnikDTO>> admin_index(){
-
+    public ResponseEntity<List<KorisnikDTO>> admin_index() throws Exception {
         System.out.println("Pogodio /admin_index");
 
-        if(ulogovan == null || ulogovan.getUloga() != Uloga.ADMIN){
+        pocetak();
+
+        if(ulogovan == null || ulogovan.getUloga() != Uloga.ADMIN || !ulogovan.getUlogovan()){
             System.out.println("Šaljem null kao odgovor iz /admin_indexa");
-            return null;
+            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
         }
 
         List<Korisnik> approveList = adminService.findByUsername(ulogovan.getKorisnicko_ime()).getApprovalList();
@@ -112,7 +139,6 @@ public class KorisnikKontroler {
         return new ResponseEntity<>(approveListDTO, HttpStatus.OK);
     }
 
-
     @GetMapping(value = "/admin_odobri_registraciju/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<KorisnikDTO>> admin_odobri_registraciju(@PathVariable(name = "id") Long id) throws Exception {
         System.out.println("Pogodio /admin_odobri_registraciju/" + id);
@@ -124,7 +150,13 @@ public class KorisnikKontroler {
         System.out.println("Brisanje korisnika iz approvalListe");
         approvalList.remove(korisnikService.findOne(id));
         adminService.update(SuperAdmin);*/
+        List<Korisnik> approvalList = adminService.findByUsername(ulogovan.getKorisnicko_ime()).getApprovalList();
         List<KorisnikDTO> approvalListDTO = new ArrayList<>();
+
+        for(Korisnik k: approvalList){
+            System.out.println("To be approved: " + k.getKorisnickoime());
+            approvalListDTO.add(new KorisnikDTO(k));
+        }
 
         /*for(Korisnik k: approvalList){
             approvalListDTO.add(new KorisnikDTO(k));
@@ -132,6 +164,10 @@ public class KorisnikKontroler {
 
         return new ResponseEntity<>(approvalListDTO, HttpStatus.OK);
     }
+
+
+    // ADMIN BIOSKOPI
+
 
     @GetMapping(value="/admin_bioskopi", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<BioskopDTO>> admin_bioskopi(){
@@ -145,12 +181,37 @@ public class KorisnikKontroler {
     }
 
     @GetMapping(value = "/admin_bioskop_obrisi/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<BioskopDTO>> admin_bioskop_obrisi(@PathVariable(name = "id") Long id){
+    public ResponseEntity<BioskopDTO> admin_bioskop_obrisi(@PathVariable(name = "id") Long id){
         System.out.println("Pogodio /admin_bioskopi_obrisi/" + id);
-        bioskopService.delete(id);
-        List<BioskopDTO> bioskopiDTO = new ArrayList<>();
+        Bioskop bioskop = bioskopService.findOne(id);
+        for(Menadzer m: menadzerService.findAll()){
+            if(m.getBioskopi().contains(bioskop)){
+                m.getBioskopi().remove(bioskop);
+            }
+        }
+        Integer i = 0;
 
-        return new ResponseEntity<>(bioskopiDTO, HttpStatus.OK);
+        for(Sala s: bioskop.getSale()){
+            for(Projekcija p: s.getLista_projekcija()) {
+                p.setSala(null);
+                for (Karta k : p.getKarte()) {
+                    k.setProjekcija(null);
+                    k.getGledalac().getRezervisane_karte().remove(k);
+                    k.setGledalac(null);
+                    kartaService.delete(k.getId());
+                }
+                p.setKarte(null);
+                projekcijaService.delete(p.getId());
+            }
+            s.setLista_projekcija(null);
+
+            salaService.delete(s.getId());
+
+        }
+        bioskop.setSale(null);
+        bioskopService.delete(id);
+
+        return new ResponseEntity<>(new BioskopDTO(bioskop), HttpStatus.OK);
     }
 
     @GetMapping(value = "/admin_bioskop_izmeni_priprema", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -159,12 +220,11 @@ public class KorisnikKontroler {
         List<MenadzerDTO> menadzeriDTO = new ArrayList<>();
 
         for(Menadzer m: menadzerService.findAll()){
-            menadzeriDTO.add(new MenadzerDTO(m));
+            if(m.getApproved() && m.getAktivan()) menadzeriDTO.add(new MenadzerDTO(m));
         }
 
         return new ResponseEntity(menadzeriDTO, HttpStatus.OK);
     }
-
 
     @PostMapping(value = "/admin_bioskop_izmeni", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BioskopDTO> admin_bioskop_izmeni(@RequestBody BioskopDTO noviBioskopDTO) throws Exception {
@@ -186,8 +246,6 @@ public class KorisnikKontroler {
         return new ResponseEntity<>(new BioskopDTO(bioskop), HttpStatus.OK);
     }
 
-
-
     @GetMapping(value = "/admin_bioskop_dodaj_mngr_priprema/{id}")
     public ResponseEntity<List<MenadzerDTO>> admin_bioskop_dodaj_mngr_priprema(@PathVariable(name = "id") Long id){
         System.out.println("Pogodio /admin_bioskopi_dodaj_mngr_priprema/" + id);
@@ -203,24 +261,111 @@ public class KorisnikKontroler {
         return new ResponseEntity<>(menadzeriDTO, HttpStatus.OK);
     }
 
-
     @GetMapping(value = "/admin_bioskop_dodaj_mngr/{bioskop_id}/{mngr_id}")
     public ResponseEntity<List<BioskopDTO>> admin_bioskop_dodaj_mngr(@PathVariable(name = "bioskop_id") Long bioskop_id, @PathVariable(name = "mngr_id") Long mngr_id) throws Exception{
         System.out.println("Pogodio /admin_bioskop_dodaj_mngr/" + bioskop_id + "/" + mngr_id);
 
         Menadzer menadzer = menadzerService.findOne(mngr_id);
-        System.out.println("Korisnicko ime menadzera: " + menadzer.getKorisnickoime());
-
         Bioskop bioskop = bioskopService.findOne(bioskop_id);
         bioskop.getMenadzeri().add(menadzer);
         menadzer.getBioskopi().add(bioskop);
         Bioskop novi = bioskopService.update(bioskop);
+        menadzerService.update(menadzer);
 
 
         List<BioskopDTO> b = new ArrayList<>();
         b.add(new BioskopDTO(novi));
 
         return new ResponseEntity<>(b, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/admin_bioskop_novi", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<BioskopDTO> admin_bioskop_novi(@RequestBody BioskopDTO bioskopDTO) throws  Exception{
+        Menadzer inicijalni_menadzer = menadzerService.findByUsername(bioskopDTO.getInicijalni_menadzer());
+
+        Bioskop bioskop = new Bioskop(bioskopDTO);
+        bioskop.getMenadzeri().add(inicijalni_menadzer);
+        Bioskop novi = bioskopService.create(bioskop);
+        inicijalni_menadzer.getBioskopi().add(novi);
+        menadzerService.update(inicijalni_menadzer);
+
+        return new ResponseEntity<>(new BioskopDTO(novi), HttpStatus.OK);
+    }
+
+
+    // ADMIN MENADZERI
+
+
+    @GetMapping(value = "/admin_menadzeri", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<MenadzerDTO>> admin_menadzeri(){
+        List<MenadzerDTO> menadzeriDTO = new ArrayList<>();
+
+        for(Menadzer m: menadzerService.findAll()){
+            if(m.getApproved() && m.getAktivan()){
+                menadzeriDTO.add(new MenadzerDTO(m));
+            }
+        }
+
+        return new ResponseEntity<>(menadzeriDTO, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/admin_menadzeri_obrisi/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<MenadzerDTO> admin_menadzeri_obrisi(@PathVariable(name="id") Long id){
+        Menadzer menadzer = menadzerService.findOne(id);
+        for(Bioskop b: bioskopService.findAll()){
+            if(b.getMenadzeri().contains(menadzer)) {
+                System.out.println("Menadzer: " + menadzer.getKorisnickoime());
+                System.out.println("Bioskop: " + b.getNaziv());
+                if(!(b.getMenadzeri().size() == 1)){
+                    b.getMenadzeri().remove(menadzer);
+                } else {
+                    return new ResponseEntity<>(new MenadzerDTO(menadzer), HttpStatus.OK);
+                }
+            }
+        }
+        menadzerService.delete(id);
+        MenadzerDTO retVal = new MenadzerDTO(menadzer);
+        retVal.setObrisan(true);
+
+        return new ResponseEntity<>(retVal, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/admin_menadzeri_detalji/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Object>> admin_menadzeri_detalji(@PathVariable(name = "id") Long id){
+        Menadzer menadzer = menadzerService.findOne(id);
+        List<Object> retVal = new ArrayList<>();
+        retVal.add(new MenadzerDTO(menadzer));
+
+        for(Bioskop b: menadzer.getBioskopi()){
+            retVal.add(new BioskopDTO(b));
+        }
+
+        return new ResponseEntity<>(retVal, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/admin_bioskop_ukloni_mngr/{bioskop_id}/{mngr_id}")
+    public ResponseEntity<List<Object>> admin_bioskop_ukloni_mngr(@PathVariable(name="bioskop_id") Long bioskop_id, @PathVariable(name="mngr_id") Long mngr_id) throws Exception {
+        Menadzer menadzer = menadzerService.findOne(mngr_id);
+        Bioskop bioskop = bioskopService.findOne(bioskop_id);
+        List<Object> retVal = new ArrayList<>();
+
+        if(bioskop.getMenadzeri().size() == 1){
+            MenadzerDTO novi = new MenadzerDTO(menadzer);
+            novi.setObrisan(true);
+            retVal.add(novi);
+            retVal.add(new BioskopDTO(bioskop));
+            return new ResponseEntity<>(retVal, HttpStatus.OK);
+        }
+
+        menadzer.getBioskopi().remove(bioskop);
+        bioskop.getMenadzeri().remove(menadzer);
+        Menadzer novi_mngr = menadzerService.update(menadzer);
+        Bioskop novi_bioskop = bioskopService.update(bioskop);
+
+        retVal.add(new MenadzerDTO(novi_mngr));
+        retVal.add(new BioskopDTO(novi_bioskop));
+
+        return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
 
 
@@ -254,20 +399,7 @@ public class KorisnikKontroler {
     public ResponseEntity<LoginDTO> prijava(@RequestBody LoginDTO loginDTO) throws Exception{
         if(loginDTO == null) return new ResponseEntity<>(null, HttpStatus.OK);
 
-        /*System.out.println("Prosledjeno korisnicko ime: " + loginDTO.getKorisnickoime());
-        System.out.println("Prosledjena lozinka: " + loginDTO.getLozinka());
-        System.out.println("Duzina prosledjene lozinke: " + loginDTO.getLozinka().length());*/
-
         Korisnik korisnik = korisnikService.findByKorisnickoime(loginDTO.getKorisnickoime());
-
-
-        /*System.out.println("Pronadjeno korisnicko ime: " + korisnik.getKorisnickoime());
-        System.out.println("Pronadjena lozinka: " + korisnik.getLozinka());
-        System.out.println("Duzina pronadjene lozinke: " + korisnik.getLozinka().length());
-
-        System.out.println(korisnik==null);
-        //System.out.println(korisnik.getLozinka() != loginDTO.getLozinka());
-        System.out.println(korisnik == null || !(korisnik.getLozinka().equals(loginDTO.getLozinka())));*/
 
         if(korisnik == null){
             System.out.println("Pogrešno korisničko ime");
@@ -293,13 +425,6 @@ public class KorisnikKontroler {
 
             System.out.println("Ispravno korisničko ime i lozinka. Prijava korisnika: " + korisnik.toString());
 
-            /*Ulogovan trenutniKorisnik = new Ulogovan();
-            trenutniKorisnik.setId(korisnik.getId());
-            trenutniKorisnik.setKorisnicko_ime(korisnik.getKorisnickoime());
-            trenutniKorisnik.setLozinka(korisnik.getLozinka());
-            trenutniKorisnik.setUloga(korisnik.getUloga());
-            trenutniKorisnik.setUlogovan(true);*/
-
             ulogovan.setId(korisnik.getId());
             ulogovan.setKorisnicko_ime(korisnik.getKorisnickoime());
             ulogovan.setLozinka(korisnik.getLozinka());
@@ -322,7 +447,9 @@ public class KorisnikKontroler {
 
 
     @GetMapping("/get_filmovi")
-    public ResponseEntity<List<FilmDTO>> get_filmovi(){
+    public ResponseEntity<List<FilmDTO>> get_filmovi() throws Exception {
+        pocetak();
+
         List<Film> filmovi = filmService.findAll();
         List<FilmDTO> filmoviDTO = new ArrayList<>();
 
@@ -338,12 +465,13 @@ public class KorisnikKontroler {
     public ResponseEntity<List<ProjekcijaDTO>> get_projekcije(@PathVariable(name = "id") Long id){
         String naziv_film = filmService.findOne(id).getNaziv();
         List<ProjekcijaDTO> slanje = new ArrayList<>();
-        List<Projekcija> projekcije = projekcijaService.findAll();
+        moviesForSort.clear();
 
-        for(Projekcija p: projekcije){
+        for(Projekcija p: projekcijaService.findAll()){
             if(p.getFilm().getNaziv().equals(naziv_film)){
-            ProjekcijaDTO temp = new ProjekcijaDTO(p);
+                ProjekcijaDTO temp = new ProjekcijaDTO(p);
                 slanje.add(temp);
+                moviesForSort.add(p);
             }
         }
 
@@ -353,6 +481,267 @@ public class KorisnikKontroler {
     @GetMapping("/error")
     public String error(){
         return "error.html";
+    }
+
+    public void pocetak() throws Exception {
+        if(!program_poceo) welcome();
+    }
+
+    @PostMapping(value = "/sortiranje", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ProjekcijaDTO>> sortiranje(@RequestBody String sort_type){
+        System.out.println("Pogodio /sortiranje");
+        System.out.println("-----------------------------");
+
+        List<ProjekcijaDTO> retVal = new ArrayList<>();
+        System.out.println("SORT: " + sort_type);
+        System.out.println("-----------------------------");
+        if(sort_type.equals("\"cena_opadajuce\"")){
+            List<Projekcija> projekcije = projekcijaService.findByOrderByCenaDesc();
+            for(Projekcija p: projekcije){
+                for(Projekcija p_u_listi: moviesForSort){
+                    if(p.getId()==p_u_listi.getId()){
+                        retVal.add(new ProjekcijaDTO(p));
+                    }
+                }
+            }
+        } else if(sort_type.equals("\"cena_rastuce\"")) {
+            List<Projekcija> projekcije = projekcijaService.findByOrderByCenaAsc();
+            for(Projekcija p: projekcije){
+                for(Projekcija p_u_listi: moviesForSort){
+                    if(p.getId()==p_u_listi.getId()){
+                        System.out.println("Usao gde treba");
+                        retVal.add(new ProjekcijaDTO(p));
+                    }
+                }
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(retVal, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/pretraga", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ProjekcijaDTO>> pretraga(@RequestBody ProjekcijaDTO projekcijaDTO) {
+        System.out.println("Pogodio /pretraga");
+
+
+        List<Projekcija> sve_projekcije = projekcijaService.findAll();
+        List<Projekcija> projekcije = new ArrayList<>();
+
+        ProjekcijaDTO ps = projekcijaDTO;
+
+        /*for(Projekcija p: sve_projekcije){
+            System.out.println("Unet naziv: " + p.getFilm().getNaziv());
+            System.out.println("Unet opis: " + p.getFilm().getOpis());
+            System.out.println("Unet zanr: " + p.getFilm().getZanr());
+            System.out.println("Uneta cena: " + p.getCena());
+            System.out.println("Uneta ocena: " + p.getFilm().getProsecnaocena());
+            System.out.println("Uneto vreme: " + p.getDatumvreme());
+            System.out.println("-----------------------------");
+        }*/
+
+        /*System.out.println("Unet naziv: " + ps.getNaziv());
+        System.out.println("Unet opis: " + ps.getOpis());
+        System.out.println("Unet zanr: " + ps.getZanr());
+        System.out.println("Uneta cena: " + ps.getCena());
+        System.out.println("Uneta ocena: " + ps.getProsecnaocena());
+        System.out.println("Uneto vreme: " + ps.getDatumvreme_format());*/
+
+
+        if(ps.getNaziv().equals("") && ps.getOpis().equals("") && ps.getZanr().equals("") && ps.getCena() == null && ps.getDatumvreme_format()==null && ps.getProsecnaocena()==null){
+            projekcije.addAll(sve_projekcije);
+        } else {
+            for(Projekcija projekcija : sve_projekcije){
+                // PO NAZIVU
+                if(!ps.getNaziv().equals("") && ps.getOpis().equals("") && ps.getZanr().equals("") && ps.getCena() == null && ps.getDatumvreme_format()==null && ps.getProsecnaocena()==null){
+                    if(pretragaNaziv(projekcija, ps)){
+                        if(!projekcije.contains(projekcija)){
+                            projekcije.add(projekcija);
+                        }
+                    }
+                }
+                //PO OPISU
+                if(ps.getNaziv().equals("") && !ps.getOpis().equals("") && ps.getZanr().equals("") && ps.getCena() == null && ps.getDatumvreme_format()==null && ps.getProsecnaocena()==null){
+                    if(pretragaOpis(projekcija, ps)){
+                        if(!projekcije.contains(projekcija)){
+                            projekcije.add(projekcija);
+                        }
+                    }
+                }
+                //PO ZANRU
+                if(ps.getNaziv().equals("") && ps.getOpis().equals("") && !ps.getZanr().equals("") && ps.getCena() == null && ps.getDatumvreme_format()==null && ps.getProsecnaocena()==null){
+                    if(pretragaZanr(projekcija, ps)){
+                        if(!projekcije.contains(projekcija)){
+                            projekcije.add(projekcija);
+                        }
+                    }
+                }
+                //PO CENI
+                if(ps.getNaziv().equals("") && ps.getOpis().equals("") && ps.getZanr().equals("") && ps.getCena() != null && ps.getDatumvreme_format()==null && ps.getProsecnaocena()==null){
+                    if(projekcija.getCena() < ps.getCena()){
+                        if(!projekcije.contains(projekcija)){
+                            projekcije.add(projekcija);
+                        }
+                    }
+                }
+                //PO OCENI
+                if(ps.getNaziv().equals("") && ps.getOpis().equals("") && ps.getZanr().equals("") && ps.getCena() == null && ps.getDatumvreme_format()==null && ps.getProsecnaocena()!=null){
+                    if(projekcija.getFilm().getProsecnaocena() >= ps.getProsecnaocena()){
+                        if(!projekcije.contains(projekcija)){
+                            projekcije.add(projekcija);
+                        }
+                    }
+                }
+                //PO DANU
+                if(ps.getNaziv().equals("") && ps.getOpis().equals("") && ps.getZanr().equals("") && ps.getCena() == null && ps.getDatumvreme_format()!=null && ps.getProsecnaocena()==null){
+                    projekcije = projekcijaService.findByDatumvreme(ps.getDatumvreme_format());
+                }
+                // PO NAZIVU I OPISU
+                if(!ps.getNaziv().equals("") && !ps.getOpis().equals("") && ps.getZanr().equals("") && ps.getCena() == null && ps.getDatumvreme_format()==null && ps.getProsecnaocena()==null){
+                    if(pretragaNaziv(projekcija, ps) && pretragaOpis(projekcija, ps)){
+                        if(!projekcije.contains(projekcija)){
+                            projekcije.add(projekcija);
+                        }
+                    }
+                }
+                // PO NAZIVU I ZANRU
+                if(!ps.getNaziv().equals("") && ps.getOpis().equals("") && !ps.getZanr().equals("") && ps.getCena() == null && ps.getDatumvreme_format()==null && ps.getProsecnaocena()==null){
+                    if(pretragaNaziv(projekcija, ps) && pretragaZanr(projekcija, ps)){
+                        if(!projekcije.contains(projekcija)){
+                            projekcije.add(projekcija);
+                        }
+                    }
+                }
+                // PO NAZIVU I CENI
+                if(!ps.getNaziv().equals("") && ps.getOpis().equals("") && ps.getZanr().equals("") && ps.getCena() != null && ps.getDatumvreme_format()==null && ps.getProsecnaocena()!=null){
+                    if(pretragaNaziv(projekcija, ps) && projekcija.getCena() < ps.getCena()){
+                        if(!projekcije.contains(projekcija)){
+                            projekcije.add(projekcija);
+                        }
+                    }
+                }
+                // PO NAZIVU I OCENI
+                if(!ps.getNaziv().equals("") && ps.getOpis().equals("") && ps.getZanr().equals("") && ps.getCena() == null && ps.getDatumvreme_format()==null && ps.getProsecnaocena()!=null){
+                    if(pretragaNaziv(projekcija, ps) && projekcija.getFilm().getProsecnaocena() >= ps.getProsecnaocena()){
+                        if(!projekcije.contains(projekcija)){
+                            projekcije.add(projekcija);
+                        }
+                    }
+                }
+                // PO NAZIVU I DATUMU
+                if(!ps.getNaziv().equals("") && ps.getOpis().equals("") && ps.getZanr().equals("") && ps.getCena() == null && ps.getDatumvreme_format()!=null && ps.getProsecnaocena()==null){
+                    List<Projekcija> temp = projekcijaService.findByDatumvreme(ps.getDatumvreme_format());
+                    for(Projekcija t : temp){
+                        if(pretragaNaziv(t, ps)){
+                            if(!projekcije.contains(t)){
+                                projekcije.add(t);
+                            }
+                        }
+                    }
+                }
+                // PO OPISU I ZANRU
+                if(ps.getNaziv().equals("") && !ps.getOpis().equals("") && !ps.getZanr().equals("") && ps.getCena() == null && ps.getDatumvreme_format()==null && ps.getProsecnaocena()==null){
+                    if(pretragaOpis(projekcija, ps) && pretragaZanr(projekcija, ps)){
+                        if(!projekcije.contains(projekcija)){
+                            projekcije.add(projekcija);
+                        }
+                    }
+                }
+                // PO OPISU I CENI
+                if(ps.getNaziv().equals("") && !ps.getOpis().equals("") && ps.getZanr().equals("") && ps.getCena() != null && ps.getDatumvreme_format()==null && ps.getProsecnaocena()==null){
+                    if(pretragaOpis(projekcija, ps) && projekcija.getCena() < ps.getCena() ){
+                        if(!projekcije.contains(projekcija)){
+                            projekcije.add(projekcija);
+                        }
+                    }
+                }
+                // PO OPISU I OCENI
+                if(ps.getNaziv().equals("") && !ps.getOpis().equals("") && ps.getZanr().equals("") && ps.getCena() == null && ps.getDatumvreme_format()==null && ps.getProsecnaocena()!=null){
+                    if(pretragaOpis(projekcija, ps) && projekcija.getCena() < ps.getCena() ){
+                        if(!projekcije.contains(projekcija)){
+                            projekcije.add(projekcija);
+                        }
+                    }
+                }
+                // PO OPISU I DATUMU
+                if(ps.getNaziv().equals("") && !ps.getOpis().equals("") && ps.getZanr().equals("") && ps.getCena() == null && ps.getDatumvreme_format()!=null && ps.getProsecnaocena()==null){
+                    List<Projekcija> temp = projekcijaService.findByDatumvreme(ps.getDatumvreme_format());
+                    for(Projekcija t : temp){
+                        if(pretragaOpis(t, ps)){
+                            if(!projekcije.contains(t)){
+                                projekcije.add(t);
+                            }
+                        }
+                    }
+                }
+                //SVE ZAJEDNO
+                if(!ps.getNaziv().equals("") && !ps.getOpis().equals("") && !ps.getZanr().equals("") && ps.getCena() != null && ps.getDatumvreme_format()!=null && ps.getProsecnaocena()!=null){
+                    List<Projekcija> temp = projekcijaService.findByDatumvreme(ps.getDatumvreme_format());
+                    for(Projekcija t : temp){
+                        if(pretragaNaziv(t, ps) && pretragaOpis(t, ps) && pretragaZanr(t, ps) && pretragaCena(t, ps) && pretragaOcena(t, ps)){
+                            if(!projekcije.contains(t)){
+                                projekcije.add(t);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        List<ProjekcijaDTO> retVal = new ArrayList<>();
+        moviesForSort.clear();
+
+        for(Projekcija p: projekcije){
+            retVal.add(new ProjekcijaDTO(p));
+            moviesForSort.add(p);
+        }
+
+        /*for(ProjekcijaDTO p: retVal){
+            System.out.println("----------------------------");
+            System.out.println("Nadjen naziv: " + p.getNaziv());
+            System.out.println("Nadjena cena: " + p.getCena());
+            System.out.println("Nadjeno vreme: " + p.getDatumvreme());
+            System.out.println("----------------------------");
+
+        }
+        System.out.println("----------------------------");
+        System.out.println("Šaljem pronađene projekcije na front.");
+        System.out.println("----------------------------");*/
+
+        return new ResponseEntity<>(retVal, HttpStatus.OK);
+    }
+
+
+    public Boolean pretragaNaziv(Projekcija projekcija, ProjekcijaDTO ps){
+        if(projekcija.getFilm().getNaziv().toLowerCase().contains(ps.getNaziv().toLowerCase())){
+            return true;
+        }
+        return false;
+    }
+    public Boolean pretragaOpis(Projekcija projekcija, ProjekcijaDTO ps) {
+        if (projekcija.getFilm().getOpis().toLowerCase().contains(ps.getOpis().toLowerCase())) {
+            return true;
+        }
+        return false;
+    }
+    public Boolean pretragaZanr(Projekcija projekcija, ProjekcijaDTO ps){
+        if(projekcija.getFilm().getZanr().toLowerCase().contains(ps.getZanr().toLowerCase())) {
+            return true;
+        }
+        return false;
+    }
+    public Boolean pretragaCena(Projekcija projekcija, ProjekcijaDTO ps){
+        if(projekcija.getCena() < ps.getCena()) {
+            return true;
+        }
+        return false;
+    }
+    public Boolean pretragaOcena(Projekcija projekcija, ProjekcijaDTO ps){
+        if(projekcija.getFilm().getProsecnaocena() > ps.getProsecnaocena()){
+            return true;
+        }
+        return false;
     }
 
 }
