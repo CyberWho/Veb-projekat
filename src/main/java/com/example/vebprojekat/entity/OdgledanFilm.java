@@ -30,7 +30,6 @@ public class OdgledanFilm implements Serializable {
         this.gledalac = gledalac;
         this.ocenjen = ocenjen;
         this.ocena = ocena;
-        //this.ocenjen_film = ocenjen_film;
     }
 
     public Long getId() {

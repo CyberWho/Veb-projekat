@@ -56,4 +56,5 @@ INSERT INTO Karta(id, broj_mesta, projekcija_id, gledalac_id) VALUES (6, 2, 5, 9
 INSERT INTO Karta(id, broj_mesta, projekcija_id, gledalac_id) VALUES (7, 6, 6, 2);
 INSERT INTO Karta(id, broj_mesta, projekcija_id, gledalac_id) VALUES (8, 1, 6, 4);
 INSERT INTO Karta(id, broj_mesta, projekcija_id, gledalac_id) VALUES (9, 3, 7, 4);
+INSERT INTO Karta(id, broj_mesta, projekcija_id, gledalac_id) VALUES (10, 4, 7, 1);
 

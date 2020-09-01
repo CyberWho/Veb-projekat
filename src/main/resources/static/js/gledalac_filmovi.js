@@ -78,6 +78,7 @@ $(document).on('submit', '#sortirajForma', function (event){
 
 });
 
+// REZERVACIJA KARATA
 $(document).on('click', '.rezervisi', function (){
     var projection_id = this.id.split(" ")[1];
     var broj_preostalih = this.id.split(" ")[2];
@@ -226,6 +227,7 @@ function reserveProjection(projection_id, broj_karata){
             } else {
                 alert("Uspešno ste rezervisali " + broj_karata + " karata za projekciju filma " + data[0]['naziv'] + " (" + data[0]['datumvreme'] + ").");
             }
+            window.location.href = "gledalac_rezervacije.html";
         },
         error: function (){
             alert("Greška! (filmovi.js/gledalac_rezervisi/" + projection_id + "/" + broj_karata);

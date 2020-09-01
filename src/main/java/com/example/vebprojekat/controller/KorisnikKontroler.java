@@ -145,11 +145,6 @@ public class KorisnikKontroler {
 
         adminService.approveRegistration(korisnikService.findOne(id));
 
-        /*Admin SuperAdmin = adminService.findByUsername("SuperAdmin");
-        List<Korisnik> approvalList = SuperAdmin.getApprovalList();
-        System.out.println("Brisanje korisnika iz approvalListe");
-        approvalList.remove(korisnikService.findOne(id));
-        adminService.update(SuperAdmin);*/
         List<Korisnik> approvalList = adminService.findByUsername(ulogovan.getKorisnicko_ime()).getApprovalList();
         List<KorisnikDTO> approvalListDTO = new ArrayList<>();
 
@@ -157,10 +152,6 @@ public class KorisnikKontroler {
             System.out.println("To be approved: " + k.getKorisnickoime());
             approvalListDTO.add(new KorisnikDTO(k));
         }
-
-        /*for(Korisnik k: approvalList){
-            approvalListDTO.add(new KorisnikDTO(k));
-        }*/
 
         return new ResponseEntity<>(approvalListDTO, HttpStatus.OK);
     }
