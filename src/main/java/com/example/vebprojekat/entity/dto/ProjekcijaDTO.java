@@ -56,6 +56,7 @@ public class ProjekcijaDTO implements Serializable {
             this.datumvreme += " ";
         }
         this.datumvreme = this.datumvreme.substring(0, this.datumvreme.length() - 1);
+
         this.sala = p.getSala().getNaziv();
 
         Integer broj_rezervisanih_mesta = 0;

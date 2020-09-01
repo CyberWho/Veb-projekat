@@ -46,7 +46,8 @@ public class ProjekcijaServiceImpl implements ProjekcijaService {
     }
 
     @Override
-     public void delete(Long id){
+    public void delete(Long id){
+        System.out.println("PROJEKCIJA SERVICE: DELETED WITH ID " + id);
         projekcijaRepository.deleteById(id);
     }
 

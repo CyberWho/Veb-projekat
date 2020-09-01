@@ -185,6 +185,7 @@ public class KorisnikKontroler {
         for(Sala s: bioskop.getSale()){
             for(Projekcija p: s.getLista_projekcija()) {
                 p.setSala(null);
+                p.getFilm().getTerminske_liste().remove(p);
                 for (Karta k : p.getKarte()) {
                     k.setProjekcija(null);
                     k.getGledalac().getRezervisane_karte().remove(k);
@@ -192,6 +193,7 @@ public class KorisnikKontroler {
                     kartaService.delete(k.getId());
                 }
                 p.setKarte(null);
+                System.out.println("Brisem projekciju p");
                 projekcijaService.delete(p.getId());
             }
             s.setLista_projekcija(null);
